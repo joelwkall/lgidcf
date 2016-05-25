@@ -16,7 +16,9 @@ pub struct Player {
 	
 	pub time_since_shot: f64,
 	
-	pub device: Device
+	pub device: Device,
+	
+	pub jetpack: Device
 }
 
 impl Player {
@@ -38,14 +40,13 @@ impl Player {
 		else if data.key_is_pressed(Key::Down){
 			dir[1] = 1.0;
 		}
-			
-		println!("dir: {},{}",dir[0],dir[1]);
 		
 		let mut ret = Vec::new();
 		
 		for t in &self.device.projectiles {
-			
-			ret.push(Projectile::new([self.x,self.y],dir,[self.speed_x,self.speed_y],t.clone()));
+			for _ in 0..t.number {
+				ret.push(Projectile::new([self.x,self.y],dir,[self.speed_x,self.speed_y],t.clone()));
+			}
 		}
 		
 		ret
@@ -73,10 +74,18 @@ impl Player {
 		}
 		
 		const PIXELS_PER_METER:f64 = 10.0;
+		
+		let mut ret = Vec::new();
 
 		//jetpack
 		if self.y > 0.0 && data.key_is_pressed(Key::Return) {
 			self.speed_y -= 10.0;
+			
+			for t in &self.jetpack.projectiles {
+				for _ in 0..t.number {
+					ret.push(Projectile::new([self.x,self.y],[0.0,1.0],[0.0,0.0],t.clone()));
+				}
+			}
 		}
 		
 		//add gravity
@@ -109,17 +118,19 @@ impl Player {
 		
 		self.time_since_shot += args.dt;
 		
+		
+		
 		if self.time_since_shot > self.device.cooldown && data.key_is_pressed(Key::RShift) {
 		
 			let projectiles = self.throw_projectiles(data);
 			self.time_since_shot = 0.0;
 			
-			return Some(projectiles);
+			ret.extend(projectiles);
 		}
 		
 		
+		Some(ret)
 		
-		return None;
 		
 		
     }

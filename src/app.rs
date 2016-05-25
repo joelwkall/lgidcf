@@ -21,20 +21,23 @@ pub struct App {
 	pub player: Player,
 	
 	pub data: AppData
-	
-	
 }
 
 impl App {
 
 	pub fn new(width:u32,height:u32) -> App {
 	
-		
+		//device
 		let mut data = String::new();
-		let mut f = File::open("device.json").unwrap();
+		let mut f = File::open("settings/device.json").unwrap();
 		f.read_to_string(&mut data).unwrap();
 		let d: Device = decode(&data).unwrap();
 		
+		//jetpack
+		data = String::new();
+		f = File::open("settings/jetpack.json").unwrap();
+		f.read_to_string(&mut data).unwrap();
+		let j: Device = decode(&data).unwrap();
 		
 		match d.name {
 			Some(ref s) => println!("name: {}",s),
@@ -48,7 +51,8 @@ impl App {
 				speed_x:0.0,
 				speed_y:0.0,
 				time_since_shot:0.0,
-				device: d
+				device: d,
+				jetpack: j
 			},
 			data: AppData::new(width,height)
 		}
