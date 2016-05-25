@@ -1,0 +1,45 @@
+{
+	"name":"testar",
+	"cooldown":0.1,
+	"projectiles":[
+		{
+			"number":1,
+			"size":20.0,
+			"spread":0.05,
+			"color":[0.0,0.0,0.0,0.5],
+			"speed":400.0,
+			"bounce":0.3,
+			"friction":0.7,
+			"events":[
+				{
+					"event_type":"border_collision",
+					"spawn_projectiles":[
+						{
+							"number":10,
+							"spread":3.14,
+							"size":10.0,
+							"color":[1.0,1.0,1.0,0.5],
+							"speed":50.0,
+							"bounce":1.0,
+							"friction":0.1,
+							"events":[
+								{
+									"event_type":"border_collision",
+									"die":true,
+									"spawn_projectiles":[]
+								}
+							]
+						}
+					],
+					"die":false
+					
+				},
+				{
+					"event_type":"stopped",
+					"spawn_projectiles":[],
+					"die":true
+				}
+			]
+		}
+	]
+}
