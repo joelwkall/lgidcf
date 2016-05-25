@@ -39,6 +39,7 @@ impl Player {
 			dir[1] = 1.0;
 		}
 			
+		println!("dir: {},{}",dir[0],dir[1]);
 		
 		let mut ret = Vec::new();
 		
@@ -51,7 +52,7 @@ impl Player {
 
 	}
 
-    pub fn render(&self, c:&Context, g: &mut G2d, data:&AppData) {
+    pub fn render(&self, c:&Context, g: &mut G2d) {
 
         const RED:   [f32; 4] = [1.0, 0.0, 0.0, 1.0];
 
@@ -74,18 +75,37 @@ impl Player {
 		const PIXELS_PER_METER:f64 = 10.0;
 
 		//jetpack
-		if self.y>0.0 && data.key_is_pressed(Key::Return) {
+		if self.y > 0.0 && data.key_is_pressed(Key::Return) {
 			self.speed_y -= 10.0;
 		}
 		
 		//add gravity
-		match self.y+25.0<(data.height as f64) {
-			true => {
-				self.speed_y = self.speed_y + 9.81*args.dt*PIXELS_PER_METER;
-				self.y += self.speed_y*args.dt;
-			},
-			false =>  {self.speed_y=0.0;}
+		self.speed_y += 9.81*args.dt*PIXELS_PER_METER;
+			
+		
+		//floor
+		if self.y+25.0 > (data.height as f64) {
+			self.speed_y = 0.0;
+			self.y = (data.height as f64) - 25.0;
 		}
+
+		//ceiling
+		if self.y-25.0 < 0.0 {
+			self.speed_y = 0.0;
+			self.y = 25.0;
+		}
+		
+		if self.x+25.0 > (data.width as f64) {
+			self.speed_x = 0.0;
+			self.x = (data.width as f64) - 25.0;
+		}
+		
+		if self.x-25.0 < 0.0 {
+			self.speed_x = 0.0;
+			self.x = 25.0;
+		}
+		
+		self.y += self.speed_y*args.dt;
 		
 		self.time_since_shot += args.dt;
 		
