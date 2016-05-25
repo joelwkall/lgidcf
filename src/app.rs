@@ -73,7 +73,7 @@ impl App {
 			d.render(&c,g);
 		}
 		
-		self.player.render(&c,g,&self.data);
+		self.player.render(&c,g);
     
     }
 
