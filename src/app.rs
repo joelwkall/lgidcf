@@ -38,11 +38,6 @@ impl App {
 		f = File::open("settings/jetpack.json").unwrap();
 		f.read_to_string(&mut data).unwrap();
 		let j: Device = decode(&data).unwrap();
-		
-		match d.name {
-			Some(ref s) => println!("name: {}",s),
-			None => {}
-		};
 	
 		App {
 			player: Player {
