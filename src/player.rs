@@ -1,6 +1,8 @@
 extern crate piston_window;
 extern crate piston;
 
+use std::rc::Rc;
+
 use piston_window::*;
 
 use projectile::*;
@@ -18,7 +20,7 @@ pub struct Player {
 	
 	pub device: Device,
 	
-	pub jetpack: Device
+	pub jetpack: Rc<ProjectileTemplate>
 }
 
 impl Player {
@@ -80,11 +82,10 @@ impl Player {
 		//jetpack
 		if self.y > 0.0 && data.key_is_pressed(Key::Return) {
 			self.speed_y -= 10.0;
-			
-			for t in &self.jetpack.projectiles {
-				for _ in 0..t.number {
-					ret.push(Projectile::new([self.x,self.y],[0.0,1.0],[0.0,0.0],t.clone()));
-				}
+
+			for _ in 0..self.jetpack.number {
+				ret.push(Projectile::new([self.x,self.y],[0.0,1.0],[0.0,0.0],self.jetpack.clone()));
+				
 			}
 		}
 		

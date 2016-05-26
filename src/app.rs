@@ -6,6 +6,7 @@ extern crate rustc_serialize;
 use rustc_serialize::json::decode;
 use std::fs::File;
 use std::io::Read;
+use std::rc::Rc;
 
 
 use piston_window::*;
@@ -37,7 +38,7 @@ impl App {
 		data = String::new();
 		f = File::open("settings/jetpack.json").unwrap();
 		f.read_to_string(&mut data).unwrap();
-		let j: Device = decode(&data).unwrap();
+		let j: ProjectileTemplate = decode(&data).unwrap();
 	
 		App {
 			player: Player {
@@ -47,7 +48,7 @@ impl App {
 				speed_y:0.0,
 				time_since_shot:0.0,
 				device: d,
-				jetpack: j
+				jetpack: Rc::new(j)
 			},
 			data: AppData::new(width,height)
 		}
