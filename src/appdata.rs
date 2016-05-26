@@ -14,7 +14,7 @@ pub struct AppData {
 	
 	pub mouse_x:u32,
 	pub mouse_y:u32,
-	pub mouse_pressed: bool, //TODO: support for multiple buttons
+	pub mouse_pressed: bool,
 	
 	buttons: HashMap<Key,bool>
 	
