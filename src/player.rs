@@ -8,6 +8,7 @@ use piston_window::*;
 use projectile::*;
 use appdata::*;
 use device::*;
+use settings::*;
 
 pub struct Player {
 	pub x: f64,
@@ -18,9 +19,9 @@ pub struct Player {
 	
 	pub time_since_shot: f64,
 	
-	pub device: Device,
-	
-	pub jetpack: Rc<ProjectileTemplate>
+	pub device: Rc<Device>,
+	pub jetpack: Rc<ProjectileTemplate>,
+	pub settings: Rc<PlayerSettings>
 }
 
 impl Player {
@@ -29,17 +30,17 @@ impl Player {
 	
 		let mut dir = [0.0,0.0];
 		
-		if data.key_is_pressed(Key::Left) {
+		if data.key_is_pressed(self.settings.key_left) {
 			dir[0] = -1.0;
 		}
-		else if data.key_is_pressed(Key::Right){
+		else if data.key_is_pressed(self.settings.key_right){
 			dir[0] = 1.0;
 		}
 			
-		if data.key_is_pressed(Key::Up){
+		if data.key_is_pressed(self.settings.key_up){
 			dir[1] = -1.0;
 		}
-		else if data.key_is_pressed(Key::Down){
+		else if data.key_is_pressed(self.settings.key_down){
 			dir[1] = 1.0;
 		}
 		
@@ -57,21 +58,20 @@ impl Player {
 
     pub fn render(&self, c:&Context, g: &mut G2d) {
 
-        const RED:   [f32; 4] = [1.0, 0.0, 0.0, 1.0];
-
         let square = rectangle::square(0.0, 0.0, 50.0);
 		let transform = c.transform.trans(self.x-25.0 as f64,self.y-25.0);
-		rectangle(RED, square, transform, g);
+		rectangle(self.settings.color, square, transform, g);
+		
     }
 
     pub fn update(&mut self, args: &UpdateArgs, data: &AppData) -> Option<Vec<Projectile>> {
 		
 		const SPEED:f64= 100.0;
 		
-		if data.key_is_pressed(Key::Left) {
+		if data.key_is_pressed(self.settings.key_left) {
 			self.x = self.x - (SPEED*args.dt);
 		}
-		if data.key_is_pressed(Key::Right) {
+		if data.key_is_pressed(self.settings.key_right) {
 			self.x = self.x + (SPEED*args.dt);
 		}
 		
@@ -80,7 +80,7 @@ impl Player {
 		let mut ret = Vec::new();
 
 		//jetpack
-		if self.y > 0.0 && data.key_is_pressed(Key::Return) {
+		if self.y > 0.0 && data.key_is_pressed(self.settings.key_jetpack) {
 			self.speed_y -= 10.0;
 
 			for _ in 0..self.jetpack.number {
@@ -121,7 +121,7 @@ impl Player {
 		
 		
 		
-		if self.time_since_shot > self.device.cooldown && data.key_is_pressed(Key::RShift) {
+		if self.time_since_shot > self.device.cooldown && data.key_is_pressed(self.settings.key_fire) {
 		
 			let projectiles = self.throw_projectiles(data);
 			self.time_since_shot = 0.0;

@@ -15,11 +15,12 @@ use appdata::AppData;
 use player::Player;
 use projectile::Projectile;
 use device::*;
+use settings::*;
 
 
 
 pub struct App {
-	pub player: Player,
+	pub players: Vec<Player>,
 	
 	pub data: AppData
 }
@@ -32,24 +33,42 @@ impl App {
 		let mut data = String::new();
 		let mut f = File::open("settings/device.json").unwrap();
 		f.read_to_string(&mut data).unwrap();
-		let d: Device = decode(&data).unwrap();
+		let d: Rc<Device> = decode(&data).unwrap();
 		
 		//jetpack
 		data = String::new();
 		f = File::open("settings/jetpack.json").unwrap();
 		f.read_to_string(&mut data).unwrap();
-		let j: ProjectileTemplate = decode(&data).unwrap();
-	
-		App {
-			player: Player {
-				x:(width as f64)/2.0,
+		let j: Rc<ProjectileTemplate> = decode(&data).unwrap();
+		
+		//settings
+		data = String::new();
+		f = File::open("settings/settings.json").unwrap();
+		f.read_to_string(&mut data).unwrap();
+		let s: Settings = decode(&data).unwrap();
+		
+		let mut players = Vec::new();
+		
+		let space = (width as f64) / (s.players.len() as f64+1.0);
+		
+		for (i,p) in s.players.iter().enumerate() {
+		
+			let player = Player {
+				x:space*(i as f64 + 1.0),
 				y:(height as f64)/2.0,
 				speed_x:0.0,
 				speed_y:0.0,
 				time_since_shot:0.0,
-				device: d,
-				jetpack: Rc::new(j)
-			},
+				device: d.clone(),
+				jetpack: j.clone(),
+				settings: p.clone()
+			};
+			
+			players.push(player);
+		}
+	
+		App {
+			players: players,
 			data: AppData::new(width,height)
 		}
 		
@@ -73,7 +92,9 @@ impl App {
 			d.render(&c,g);
 		}
 		
-		self.player.render(&c,g);
+		for p in &self.players {
+			p.render(&c,g);
+		}
     
     }
 
@@ -91,14 +112,15 @@ impl App {
 		}
 
 	
-		
-		match self.player.update(&args,&mut self.data) {
-			Some(v) => {
-				for p in v {
-					new_projectiles.push(p);
-				}
-			},
-			None => {}
+		for p in &mut self.players {
+			match p.update(&args,&mut self.data) {
+				Some(v) => {
+					for p in v {
+						new_projectiles.push(p);
+					}
+				},
+				None => {}
+			}
 		}
 		
 		//self.data.objects = newObjects;

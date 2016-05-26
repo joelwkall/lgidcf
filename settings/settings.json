@@ -1,0 +1,22 @@
+{
+	"players":[
+		{
+			"color":[1.0,0.5,1.0,1.0],
+			"key_left":"Left",
+			"key_right":"Right",
+			"key_up":"Up",
+			"key_down":"Down",
+			"key_fire":"B",
+			"key_jetpack":"Space"
+		},
+		{
+			"color":[1.0,1.0,0.5,1.0],
+			"key_left":"A",
+			"key_right":"D",
+			"key_up":"W",
+			"key_down":"S",
+			"key_fire":"LShift",
+			"key_jetpack":"LCtrl"
+		}
+	]
+}
