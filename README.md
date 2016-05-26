@@ -12,6 +12,7 @@ TODO:
 - More shapes of weapons
 - More events for weapons
 - Multiple weapons
+- Life bars / jetpack fuel bars
 - Fullscreen
 - Deployment on computers without Rust installed
 - Sound effects
