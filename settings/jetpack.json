@@ -8,7 +8,7 @@
 	"friction":0.7,
 	"events":[
 		{
-			"event_type":"border_collision",
+			"event_type":"BorderCollision",
 			"spawn_projectiles":[],
 			"die":true
 		}

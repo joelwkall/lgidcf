@@ -112,8 +112,9 @@ impl Projectile {
 		
 			for e in &self.template.events {
 				
-				if e.event_type == "border_collision".to_string() {
-					vec.push(e);
+				match e.event_type {
+					ProjectileEventTypes::BorderCollision => vec.push(e),
+					_ => {}
 				}
 			
 			}
@@ -131,8 +132,9 @@ impl Projectile {
 		if self.speed_x.abs() < STATIONARY_THRESHHOLD && self.speed_y.abs() < STATIONARY_THRESHHOLD {
 			for e in &self.template.events {
 				
-				if e.event_type == "stopped".to_string() {
-					vec.push(e);
+				match e.event_type {
+					ProjectileEventTypes::Stopped =>vec.push(e),
+					_ => {}
 				}
 			}
 		}

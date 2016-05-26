@@ -12,7 +12,7 @@
 			"friction":0.7,
 			"events":[
 				{
-					"event_type":"border_collision",
+					"event_type":"BorderCollision",
 					"spawn_projectiles":[
 						{
 							"number":10,
@@ -24,7 +24,7 @@
 							"friction":0.1,
 							"events":[
 								{
-									"event_type":"border_collision",
+									"event_type":"BorderCollision",
 									"die":true,
 									"spawn_projectiles":[]
 								}
@@ -35,7 +35,7 @@
 					
 				},
 				{
-					"event_type":"stopped",
+					"event_type":"Stopped",
 					"spawn_projectiles":[],
 					"die":true
 				}
