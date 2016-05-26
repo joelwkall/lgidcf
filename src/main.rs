@@ -3,6 +3,7 @@ mod app;
 mod projectile;
 mod player;
 mod device;
+mod settings;
 
 extern crate piston_window;
 extern crate piston;
@@ -15,11 +16,11 @@ use app::*;
 
 fn main() {
 
-	const SIZE: [u32; 2] = [600,600];
+	const SIZE: [u32; 2] = [1024,768];
 
     // Create an Glutin window.
     let mut window: PistonWindow = WindowSettings::new(
-            "spinning-square",
+            "lgidcf",
             SIZE
         )
         .exit_on_esc(true)
