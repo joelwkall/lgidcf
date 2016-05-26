@@ -17,3 +17,4 @@ TODO:
 - Deployment on computers without Rust installed
 - Sound effects
 - Weapon builder
+- Performance tuning
