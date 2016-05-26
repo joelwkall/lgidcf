@@ -4,9 +4,9 @@
 	"projectiles":[
 		{
 			"number":1,
-			"size":20.0,
+			"size":15.0,
 			"spread":0.05,
-			"color":[0.0,0.0,0.0,0.5],
+			"color":[0.0,0.0,0.0,1.0],
 			"speed":400.0,
 			"bounce":0.3,
 			"friction":0.7,
@@ -15,7 +15,7 @@
 					"event_type":"BorderCollision",
 					"spawn_projectiles":[
 						{
-							"number":10,
+							"number":20,
 							"spread":3.14,
 							"size":10.0,
 							"color":[1.0,1.0,1.0,0.5],
