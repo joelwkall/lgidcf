@@ -6,8 +6,8 @@
 			"key_right":"Right",
 			"key_up":"Up",
 			"key_down":"Down",
-			"key_fire":"B",
-			"key_jetpack":"Space"
+			"key_fire":"RShift",
+			"key_jetpack":"Return"
 		},
 		{
 			"color":[1.0,1.0,0.5,1.0],
