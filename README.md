@@ -9,12 +9,17 @@ Current status:
 
 TODO:
 
-- More shapes of weapons
-- More events for weapons
-- Multiple weapons
-- Life bars / jetpack fuel bars
-- Fullscreen
-- Deployment on computers without Rust installed
-- Sound effects
-- Weapon builder
-- Performance tuning
+[] More shapes of weapons
+[] More events for weapons
+[] Multiple weapons
+[] Life bars / jetpack fuel bars
+[] Scorekeeping
+[] Fullscreen
+[X] Deployment on computers without Rust installed (works with MSVC++ redist on windows)
+[] Sound effects
+[] Weapon builder
+[] Performance tuning
+[] Menus and stuff
+
+Design decisions:
+- Jetpack as a device instead?
