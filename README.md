@@ -10,7 +10,7 @@ Current status:
 TODO:
 
 [] More shapes of weapons
-[] More events for weapons
+[] More events for weapons (timed, player collision)
 [] Multiple weapons
 [] Life bars / jetpack fuel bars
 [] Scorekeeping
@@ -20,6 +20,10 @@ TODO:
 [] Weapon builder
 [] Performance tuning
 [] Menus and stuff
+[] Background image
+[] Obstacles
+[] Player names
 
 Design decisions:
 - Jetpack as a device instead?
+- Large map with zoom in on players?
