@@ -35,7 +35,24 @@
 				},
 				{
 					"event_type":"PlayerCollision",
-					"die":true
+					"die":true,
+					"spawn_projectiles":[
+						{
+							"number":10,
+							"spread":1.5,
+							"size":5.0,
+							"color":[0.5,0.0,0.0,1.0],
+							"speed":-50.0,
+							"bounce":1.0,
+							"friction":0.1,
+							"events":[
+								{
+									"event_type":"BorderCollision",
+									"die":true
+								}
+							]
+						}
+					]
 					
 				},
 				{
