@@ -9,20 +9,20 @@ Current status:
 
 TODO:
 
-[] More shapes of weapons
-[] More events for weapons (timed, player collision)
-[] Multiple weapons
-[] Life bars / jetpack fuel bars
-[] Scorekeeping
-[] Fullscreen
-[X] Deployment on computers without Rust installed (works with MSVC++ redist on windows)
-[] Sound effects
-[] Weapon builder
-[] Performance tuning
-[] Menus and stuff
-[] Background image
-[] Obstacles
-[] Player names
+* * [ ] More shapes of weapons
+* [ ] More events for weapons (timed, player collision)
+* [ ] Multiple weapons
+* [ ] Life bars / jetpack fuel bars
+* [ ] Scorekeeping
+* [ ] Fullscreen
+* [X] Deployment on computers without Rust installed (works with MSVC++ redist on windows)
+* [ ] Sound effects
+* [ ] Weapon builder
+* [ ] Performance tuning
+* [ ] Menus and stuff
+* [ ] Background image
+* [ ] Obstacles
+* [ ] Player names
 
 Design decisions:
 - Jetpack as a device instead?
