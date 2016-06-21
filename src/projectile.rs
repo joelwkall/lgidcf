@@ -178,15 +178,25 @@ impl Projectile {
 		let mut has_died = false;
 		for e in triggered_events {
 		
-			for p in &e.spawn_projectiles {
+			match &e.spawn_projectiles {
 			
-				for _ in 0..p.number {
-					return_vec.push(Projectile::new([ret.x,ret.y],[ret.speed_x,ret.speed_y],[ret.speed_x,ret.speed_y],p.clone())); //use updated projectile values
-				}
+				&Some(ref vec) => {
+				
+					for p in vec {
+			
+						for _ in 0..p.number {
+							return_vec.push(Projectile::new([ret.x,ret.y],[ret.speed_x,ret.speed_y],[ret.speed_x,ret.speed_y],p.clone())); //use updated projectile values
+						}
+					}
+				},
+				_ => {}
 			}
 		
-			if e.die {
-				has_died = true;
+			
+		
+			match e.die {
+				Some(true) => has_died = true,
+				_ => {}
 			}
 		}
 		

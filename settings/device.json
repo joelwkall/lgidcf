@@ -15,7 +15,7 @@
 					"event_type":"BorderCollision",
 					"spawn_projectiles":[
 						{
-							"number":20,
+							"number":10,
 							"spread":3.14,
 							"size":10.0,
 							"color":[1.0,1.0,1.0,0.5],
@@ -25,18 +25,15 @@
 							"events":[
 								{
 									"event_type":"BorderCollision",
-									"die":true,
-									"spawn_projectiles":[]
+									"die":true
 								}
 							]
 						}
-					],
-					"die":false
+					]
 					
 				},
 				{
 					"event_type":"Stopped",
-					"spawn_projectiles":[],
 					"die":true
 				}
 			]

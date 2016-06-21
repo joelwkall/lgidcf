@@ -22,9 +22,10 @@ pub struct ProjectileTemplate {
 #[derive(RustcDecodable)]
 pub struct ProjectileEvent {
 	pub event_type: ProjectileEventTypes,
-	pub spawn_projectiles: Vec<Rc<ProjectileTemplate>>,
-	pub die:bool
+	pub spawn_projectiles: Option<Vec<Rc<ProjectileTemplate>>>,
+	pub die:Option<bool>
 }
+
 
 #[derive(RustcDecodable)]
 pub enum ProjectileEventTypes {
