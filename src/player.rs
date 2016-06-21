@@ -134,6 +134,7 @@ impl Player {
 			ret.extend(projectiles);
 		}
 		
+		//TODO: add damage from projectiles
 		
 		Some(ret)
 		
