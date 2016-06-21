@@ -21,9 +21,9 @@ pub struct Projectile {
 	pub speed_x: f64,
 	pub speed_y: f64,
 	
-	owner_index: i32,
+	pub owner_index: i32,
 	age:f64,
-	template: Rc<ProjectileTemplate>
+	pub template: Rc<ProjectileTemplate>
 }
 
 

@@ -12,7 +12,8 @@ TODO:
 * * [ ] More shapes of weapons
 * [ ] More events for weapons (timed, player collision)
 * [ ] Multiple weapons
-* [ ] Life bars / jetpack fuel bars
+* [X] Life bars
+* [ ] Jetpack fuel bars
 * [ ] Scorekeeping
 * [ ] Fullscreen
 * [X] Deployment on computers without Rust installed (works with MSVC++ redist on windows)

@@ -10,6 +10,7 @@
 			"speed":400.0,
 			"bounce":0.3,
 			"friction":0.7,
+			"damage":1.0,
 			"events":[
 				{
 					"event_type":"BorderCollision",
@@ -34,8 +35,7 @@
 				},
 				{
 					"event_type":"PlayerCollision",
-					"die":true,
-					"damage":1.0
+					"die":true
 					
 				},
 				{

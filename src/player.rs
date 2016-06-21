@@ -63,13 +63,27 @@ impl Player {
 
     pub fn render(&self, c:&Context, g: &mut G2d) {
 
+		if self.health <= 0.0 {
+			return
+		}
+	
         let square = rectangle::square(0.0, 0.0, 50.0);
-		let transform = c.transform.trans(self.x-25.0 as f64,self.y-25.0);
+		let transform = c.transform.trans(self.x-25.0,self.y-25.0);
 		rectangle(self.settings.color, square, transform, g);
 		
+		let life_bar = rectangle::square(0.0,0.0,100.0); //1px square
+		let transform = c.transform.trans(20.0,(self.index as f64 +1.0)*20.0).scale(self.health/100.0,0.1);
+		rectangle(self.settings.color, life_bar, transform, g);
+			
     }
 
     pub fn update(&mut self, args: &UpdateArgs, data: &AppData) -> Option<Vec<Projectile>> {
+		
+		
+		
+		if self.health <= 0.0 {
+			return None
+		}
 		
 		const SPEED:f64= 100.0;
 		
@@ -134,7 +148,25 @@ impl Player {
 			ret.extend(projectiles);
 		}
 		
-		//TODO: add damage from projectiles
+		for p in &data.projectiles {
+		
+			match p.template.damage {
+				Some(d) => {
+					if 
+						self.index != p.owner_index &&					//only take damage from other players projectiles
+						p.x - p.template.size/2.0 < self.x+25.0 &&
+						p.x + p.template.size/2.0 > self.x-25.0 &&
+						p.y - p.template.size/2.0 < self.y+25.0 &&
+						p.y + p.template.size/2.0 > self.y-25.0
+
+					{
+						self.health -= d;
+					}
+				},
+				None => {}
+			}
+			
+		}
 		
 		Some(ret)
 		

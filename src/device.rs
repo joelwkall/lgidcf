@@ -16,7 +16,8 @@ pub struct ProjectileTemplate {
 	pub spread:f64,
 	pub bounce:f64,
 	pub friction:f64,
-	pub events: Vec<ProjectileEvent>
+	pub events: Vec<ProjectileEvent>,
+	pub damage:Option<f64>
 }
 
 #[derive(RustcDecodable)]
@@ -24,8 +25,7 @@ pub struct ProjectileEvent {
 	pub event_type: ProjectileEventTypes,
 	
 	pub spawn_projectiles: Option<Vec<Rc<ProjectileTemplate>>>,
-	pub die:Option<bool>,
-	pub damage:Option<f64>
+	pub die:Option<bool>
 }
 
 
