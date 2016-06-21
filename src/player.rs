@@ -26,34 +26,22 @@ pub struct Player {
 	
 	pub device: Rc<Device>,
 	pub jetpack: Rc<ProjectileTemplate>,
-	pub settings: Rc<PlayerSettings>
+	pub settings: Rc<PlayerSettings>,
+	
+	pub dir: [f64;2]
 }
 
 impl Player {
 
-	fn throw_projectiles(&self, data: &AppData) -> Vec<Projectile> {
+	fn throw_projectiles(&self) -> Vec<Projectile> {
 	
-		let mut dir = [0.0,0.0];
 		
-		if data.key_is_pressed(self.settings.key_left) {
-			dir[0] = -1.0;
-		}
-		else if data.key_is_pressed(self.settings.key_right){
-			dir[0] = 1.0;
-		}
-			
-		if data.key_is_pressed(self.settings.key_up){
-			dir[1] = -1.0;
-		}
-		else if data.key_is_pressed(self.settings.key_down){
-			dir[1] = 1.0;
-		}
 		
 		let mut ret = Vec::new();
 		
 		for t in &self.device.projectiles {
 			for _ in 0..t.number {
-				ret.push(Projectile::new([self.x,self.y],dir,[self.speed_x,self.speed_y],t.clone(),self.index));
+				ret.push(Projectile::new([self.x,self.y],self.dir,[self.speed_x,self.speed_y],t.clone(),self.index));
 			}
 		}
 		
@@ -87,12 +75,33 @@ impl Player {
 		
 		const SPEED:f64= 100.0;
 		
+		//go left and right
 		if data.key_is_pressed(self.settings.key_left) {
 			self.x = self.x - (SPEED*args.dt);
+			self.dir[0] = -1.0;
 		}
-		if data.key_is_pressed(self.settings.key_right) {
+		else if data.key_is_pressed(self.settings.key_right) {
 			self.x = self.x + (SPEED*args.dt);
+			self.dir[0] = 1.0;
 		}
+		else if data.key_is_pressed(self.settings.key_up) || data.key_is_pressed(self.settings.key_down)
+		{
+			self.dir[0] = 0.0;
+		}
+		
+		//keep track of directionality
+		if data.key_is_pressed(self.settings.key_up){
+			self.dir[1] = -1.0;
+		}
+		else if data.key_is_pressed(self.settings.key_down){
+			self.dir[1] = 1.0;
+		}
+		else if data.key_is_pressed(self.settings.key_left) || data.key_is_pressed(self.settings.key_right){
+			self.dir[1] = 0.0;
+		}
+	
+		
+		
 		
 		const PIXELS_PER_METER:f64 = 10.0;
 		
@@ -142,7 +151,7 @@ impl Player {
 		
 		if self.time_since_shot > self.device.cooldown && data.key_is_pressed(self.settings.key_fire) {
 		
-			let projectiles = self.throw_projectiles(data);
+			let projectiles = self.throw_projectiles();
 			self.time_since_shot = 0.0;
 			
 			ret.extend(projectiles);

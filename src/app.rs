@@ -59,6 +59,7 @@ impl App {
 				speed_x:0.0,
 				speed_y:0.0,
 				time_since_shot:0.0,
+				dir:[0.0,0.0],
 				device: d.clone(),
 				jetpack: j.clone(),
 				settings: p.clone(),
