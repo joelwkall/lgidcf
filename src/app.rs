@@ -61,7 +61,9 @@ impl App {
 				time_since_shot:0.0,
 				device: d.clone(),
 				jetpack: j.clone(),
-				settings: p.clone()
+				settings: p.clone(),
+				health:100.0,
+				index:i as i32
 			};
 			
 			players.push(player);
@@ -103,15 +105,6 @@ impl App {
 	
 		let mut new_projectiles:Vec<Projectile> = Vec::new();
 		
-		for d in &self.data.projectiles {
-			
-			for p in d.update(&args,&self.data) {
-				new_projectiles.push(p);
-			}
-			
-		}
-
-	
 		for p in &mut self.players {
 			match p.update(&args,&mut self.data) {
 				Some(v) => {
@@ -122,6 +115,17 @@ impl App {
 				None => {}
 			}
 		}
+		
+		for d in &self.data.projectiles {
+			
+			for p in d.update(&args,&self.data,&self.players) {
+				new_projectiles.push(p);
+			}
+			
+		}
+
+	
+		
 		
 		//self.data.objects = newObjects;
 		self.data.projectiles = new_projectiles;

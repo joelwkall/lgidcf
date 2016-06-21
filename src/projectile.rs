@@ -7,6 +7,7 @@ use rand::Rng;
 
 use piston_window::*;
 
+use player::Player;
 use appdata::*;
 use device::*;
 
@@ -20,6 +21,7 @@ pub struct Projectile {
 	pub speed_x: f64,
 	pub speed_y: f64,
 	
+	owner_index: i32,
 	age:f64,
 	template: Rc<ProjectileTemplate>
 }
@@ -29,7 +31,7 @@ impl Projectile {
     
 
 
-	pub fn new(pos:[f64;2],dir:[f64;2],speed:[f64;2],template:Rc<ProjectileTemplate>) -> Projectile {
+	pub fn new(pos:[f64;2],dir:[f64;2],speed:[f64;2],template:Rc<ProjectileTemplate>,owner:i32) -> Projectile {
 
 	
 		//normalize direction vector
@@ -51,7 +53,8 @@ impl Projectile {
 			speed_x:speed[0] + dx*template.speed,
 			speed_y:speed[1] + dy*template.speed,
 			age:0.0,
-			template:template
+			template:template,
+			owner_index:owner
 		}
 	}
 
@@ -124,6 +127,45 @@ impl Projectile {
 		vec
 	}
 	
+	fn check_player_collision(&self, players: &Vec<Player>) -> Vec<&ProjectileEvent>
+	{
+	
+		let mut vec = Vec::new();
+	
+		let mut trigger_collision = false;
+		
+		for p in players {
+		
+			if 
+				self.owner_index != p.index &&					//only match non-owner players
+				self.x - self.template.size/2.0 < p.x+25.0 &&
+				self.x + self.template.size/2.0 > p.x-25.0 &&
+				self.y - self.template.size/2.0 < p.y+25.0 &&
+				self.y + self.template.size/2.0 > p.y-25.0
+
+			{
+				trigger_collision=true;
+			}
+
+		
+		}
+		
+		if trigger_collision {
+		
+			for e in &self.template.events {
+				
+				match e.event_type {
+					ProjectileEventTypes::PlayerCollision => vec.push(e),
+					_ => {}
+				}
+			
+			}
+		
+		}
+		
+		vec
+	}
+	
 	fn check_stationary(&self) -> Vec<&ProjectileEvent>
 	{
 		const STATIONARY_THRESHHOLD : f64 = 1.0;
@@ -143,7 +185,7 @@ impl Projectile {
 	
 	}
 
-    pub fn update(&self, args: &UpdateArgs, data: &AppData) -> Vec<Projectile> {
+    pub fn update(&self, args: &UpdateArgs, data: &AppData, players: &Vec<Player>) -> Vec<Projectile> {
 		
 		let mut ret = Projectile {
 				age:self.age+args.dt,
@@ -156,6 +198,10 @@ impl Projectile {
 	
 		
 		for e in self.check_border_collision(&mut ret,data) {
+			triggered_events.push(e);
+		}
+		
+		for e in self.check_player_collision(players) {
 			triggered_events.push(e);
 		}
 		
@@ -185,7 +231,7 @@ impl Projectile {
 					for p in vec {
 			
 						for _ in 0..p.number {
-							return_vec.push(Projectile::new([ret.x,ret.y],[ret.speed_x,ret.speed_y],[ret.speed_x,ret.speed_y],p.clone())); //use updated projectile values
+							return_vec.push(Projectile::new([ret.x,ret.y],[ret.speed_x,ret.speed_y],[ret.speed_x,ret.speed_y],p.clone(),ret.owner_index)); //use updated projectile values
 						}
 					}
 				},

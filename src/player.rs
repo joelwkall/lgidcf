@@ -11,11 +11,16 @@ use device::*;
 use settings::*;
 
 pub struct Player {
+	
+	pub index: i32,
+	
 	pub x: f64,
 	pub y: f64,
 	
 	pub speed_x: f64,
 	pub speed_y: f64,
+	
+	pub health: f64,
 	
 	pub time_since_shot: f64,
 	
@@ -48,7 +53,7 @@ impl Player {
 		
 		for t in &self.device.projectiles {
 			for _ in 0..t.number {
-				ret.push(Projectile::new([self.x,self.y],dir,[self.speed_x,self.speed_y],t.clone()));
+				ret.push(Projectile::new([self.x,self.y],dir,[self.speed_x,self.speed_y],t.clone(),self.index));
 			}
 		}
 		
@@ -84,7 +89,7 @@ impl Player {
 			self.speed_y -= 10.0;
 
 			for _ in 0..self.jetpack.number {
-				ret.push(Projectile::new([self.x,self.y],[0.0,1.0],[0.0,0.0],self.jetpack.clone()));
+				ret.push(Projectile::new([self.x,self.y],[0.0,1.0],[0.0,0.0],self.jetpack.clone(),self.index));
 				
 			}
 		}

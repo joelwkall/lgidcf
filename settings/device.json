@@ -33,6 +33,12 @@
 					
 				},
 				{
+					"event_type":"PlayerCollision",
+					"die":true,
+					"damage":1.0
+					
+				},
+				{
 					"event_type":"Stopped",
 					"die":true
 				}
