@@ -5,7 +5,7 @@ Design your own weapons, shoot and kill your family, friends and coworkers. Iden
 
 Current status:
 
-![2016-05-26](https://raw.githubusercontent.com/joelwkall/lgidcf/master/screenshots/screenshot%202016-05-26.png "2016-05-26")
+![2016-06-21](https://raw.githubusercontent.com/joelwkall/lgidcf/master/screenshots/screenshot%202016-06-21.png "2016-05-26")
 
 TODO:
 
