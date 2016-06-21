@@ -9,7 +9,6 @@
 	"events":[
 		{
 			"event_type":"BorderCollision",
-			"spawn_projectiles":[],
 			"die":true
 		}
 	]
