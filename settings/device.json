@@ -42,12 +42,36 @@
 							"spread":1.5,
 							"size":5.0,
 							"color":[0.5,0.0,0.0,1.0],
-							"speed":-50.0,
+							"speed":0.0,
 							"bounce":1.0,
 							"friction":0.1,
 							"events":[
 								{
 									"event_type":"BorderCollision",
+									"die":true
+								}
+							]
+						}
+					]
+					
+				},
+				{
+					"event_type":"Timer",
+					"time":0.05,
+					"repeat":true,
+					"spawn_projectiles":[
+						{
+							"number":1,
+							"spread":0.1,
+							"size":2.0,
+							"color":[0.5,0.0,1.0,1.0],
+							"speed":-50.0,
+							"bounce":1.0,
+							"friction":0.1,
+							"events":[
+								{
+									"event_type":"Timer",
+									"time":1.0,
 									"die":true
 								}
 							]

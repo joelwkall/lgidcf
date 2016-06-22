@@ -10,7 +10,7 @@ Current status:
 TODO:
 
 * * [ ] More shapes of weapons
-* [ ] More events for weapons (timed)
+* [X] More events for weapons (timed)
 * [ ] Multiple weapons
 * [X] Life bars
 * [ ] Jetpack fuel bars

@@ -23,7 +23,8 @@ pub struct ProjectileTemplate {
 #[derive(RustcDecodable)]
 pub struct ProjectileEvent {
 	pub event_type: ProjectileEventTypes,
-	
+	pub time: Option<f64>,
+	pub repeat: Option<bool>,
 	pub spawn_projectiles: Option<Vec<Rc<ProjectileTemplate>>>,
 	pub die:Option<bool>
 }
@@ -33,5 +34,6 @@ pub struct ProjectileEvent {
 pub enum ProjectileEventTypes {
 	BorderCollision,
 	PlayerCollision,
-	Stopped
+	Stopped,
+	Timer
 }

@@ -11,6 +11,8 @@ use player::Player;
 use appdata::*;
 use device::*;
 
+use std::collections::HashMap;
+
 
 
 pub struct Projectile {
@@ -22,8 +24,11 @@ pub struct Projectile {
 	pub speed_y: f64,
 	
 	pub owner_index: i32,
+	
+	pub template: Rc<ProjectileTemplate>,
+	
 	age:f64,
-	pub template: Rc<ProjectileTemplate>
+	expired_timers: Rc<HashMap<i32,f64>>
 }
 
 
@@ -53,6 +58,7 @@ impl Projectile {
 			speed_x:speed[0] + dx*template.speed,
 			speed_y:speed[1] + dy*template.speed,
 			age:0.0,
+			expired_timers:Rc::new(HashMap::new()),
 			template:template,
 			owner_index:owner
 		}
@@ -184,12 +190,51 @@ impl Projectile {
 		vec
 	
 	}
+	
+	fn check_timers(&self, args: &UpdateArgs) -> Vec<&ProjectileEvent>
+	{
+		let mut vec = Vec::new();
+		
+		
+		for e in &self.template.events {
+			
+
+			match e.event_type {
+				ProjectileEventTypes::Timer =>{
+				
+					let time = e.time.unwrap_or(0.0);
+				
+					match e.repeat.unwrap_or(false) {
+						false => {
+							if self.age >= time && self.age - args.dt < time {
+								vec.push(e);
+							}
+						},
+						true => {
+							let cycles = (self.age/time).floor();
+							let last = cycles*time;
+							
+							if self.age >= last && self.age-args.dt < last {
+								vec.push(e);
+							}
+						}
+					}
+				},
+				_ => {}
+			}
+		}
+		
+		
+		vec
+	
+	}
 
     pub fn update(&self, args: &UpdateArgs, data: &AppData, players: &Vec<Player>) -> Vec<Projectile> {
 		
 		let mut ret = Projectile {
 				age:self.age+args.dt,
 				template: self.template.clone(),
+				expired_timers: self.expired_timers.clone(),
 			..*self};
 			
 		let mut triggered_events = Vec::new();
@@ -209,7 +254,9 @@ impl Projectile {
 			triggered_events.push(e);
 		}
 		
-		
+		for e in self.check_timers(args) {
+			triggered_events.push(e);
+		}
 
 		
 		const PIXELS_PER_METER:f64 = 10.0;
