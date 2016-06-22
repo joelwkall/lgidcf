@@ -3,11 +3,11 @@ A small game I'm writing to learn Rust
 
 Design your own weapons, shoot and kill your family, friends and coworkers. Identify as a square of bright colors. Press buttons. Have fun.
 
-=Current status:=
+##Current status
 
 ![2016-06-21](https://raw.githubusercontent.com/joelwkall/lgidcf/master/screenshots/2016-06-21.png "2016-05-26")
 
-=TODO:=
+##TODO
 
 * [ ] More shapes of weapons (circle, rectangle, triangle)
 * [ ] Rotation of shape
@@ -30,7 +30,7 @@ Design your own weapons, shoot and kill your family, friends and coworkers. Iden
 * [ ] Gradient colors
 * [ ] Acceleration property
 
-=Design decisions:=
+##Design decisions
 
 - Jetpack as a device instead?
 - Large map with zoom in on players?
