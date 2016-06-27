@@ -9,6 +9,7 @@ pub struct Settings {
 
 #[derive(RustcDecodable)]
 pub struct PlayerSettings {
+	pub name: Option<String>,
 	pub color:[f32;4],
 	pub key_up: Key,
 	pub key_down: Key,

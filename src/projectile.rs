@@ -11,10 +11,6 @@ use player::Player;
 use appdata::*;
 use device::*;
 
-use std::collections::HashMap;
-
-
-
 pub struct Projectile {
 
 	pub x: f64,
@@ -27,8 +23,7 @@ pub struct Projectile {
 	
 	pub template: Rc<ProjectileTemplate>,
 	
-	age:f64,
-	expired_timers: Rc<HashMap<i32,f64>>
+	age:f64
 }
 
 
@@ -58,7 +53,6 @@ impl Projectile {
 			speed_x:speed[0] + dx*template.speed,
 			speed_y:speed[1] + dy*template.speed,
 			age:0.0,
-			expired_timers:Rc::new(HashMap::new()),
 			template:template,
 			owner_index:owner
 		}
@@ -234,7 +228,6 @@ impl Projectile {
 		let mut ret = Projectile {
 				age:self.age+args.dt,
 				template: self.template.clone(),
-				expired_timers: self.expired_timers.clone(),
 			..*self};
 			
 		let mut triggered_events = Vec::new();

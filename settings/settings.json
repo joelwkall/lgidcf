@@ -1,6 +1,7 @@
 {
 	"players":[
 		{
+			"name":"Joel",
 			"color":[1.0,0.5,1.0,1.0],
 			"key_left":"Left",
 			"key_right":"Right",
@@ -10,6 +11,7 @@
 			"key_jetpack":"Return"
 		},
 		{
+			"name":"Enemy",
 			"color":[1.0,1.0,0.5,1.0],
 			"key_left":"A",
 			"key_right":"D",

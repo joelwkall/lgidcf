@@ -5,12 +5,15 @@ mod player;
 mod device;
 mod settings;
 
+
 extern crate piston_window;
 extern crate piston;
 extern crate rand;
 extern crate rustc_serialize;
+//extern crate gfx_text;
 
 use piston_window::*;
+//use gfx_text::*;
 
 use app::*;
 
@@ -26,6 +29,8 @@ fn main() {
         .exit_on_esc(true)
         .build()
         .unwrap();
+		
+	//let mut text = RendererBuilder::new::<Srgba8>(window.factory.clone()).build().unwrap();
 
     // Create a new game and run it.
     let mut app = App::new(SIZE[0],SIZE[1]);
@@ -39,6 +44,15 @@ fn main() {
 			window.draw_2d(&e,|c, g| {
 				app.render(&c,g);
 				frames+=1;
+				
+				// text.add(
+					// "The quick brown fox jumps over the lazy dog",  // Text to add
+					// [10, 10],                                       // Position
+					// [0.65, 0.16, 0.16, 1.0],                        // Text color
+				// );
+
+				// Draw text.
+				//text.draw(&mut window.encoder,&window.output_color);
 			});
         }
 

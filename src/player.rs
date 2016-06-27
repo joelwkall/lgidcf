@@ -62,7 +62,13 @@ impl Player {
 		let life_bar = rectangle::square(0.0,0.0,100.0); //1px square
 		let transform = c.transform.trans(20.0,(self.index as f64 +1.0)*20.0).scale(self.health/100.0,0.1);
 		rectangle(self.settings.color, life_bar, transform, g);
-			
+		
+		// let name = match self.settings.name {
+			// None => {"Noname".to_string()},
+			// Some(ref n) => {n.to_string()}
+		// };
+		
+	
     }
 
     pub fn update(&mut self, args: &UpdateArgs, data: &AppData) -> Option<Vec<Projectile>> {
