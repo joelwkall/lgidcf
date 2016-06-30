@@ -39,9 +39,13 @@ impl Player {
 		
 		let mut ret = Vec::new();
 		
+		let angle = (self.dir[1]).atan2(self.dir[0]);
+		
+		let speed =(self.speed_x*self.speed_x + self.speed_y*self.speed_y).sqrt();
+		
 		for t in &self.device.projectiles {
 			for _ in 0..t.number {
-				ret.push(Projectile::new([self.x,self.y],self.dir,[self.speed_x,self.speed_y],t.clone(),self.index));
+				ret.push(Projectile::new([self.x,self.y],angle,speed,t.clone(),self.index));
 			}
 		}
 		
@@ -118,7 +122,7 @@ impl Player {
 			self.speed_y -= 10.0;
 
 			for _ in 0..self.jetpack.number {
-				ret.push(Projectile::new([self.x,self.y],[0.0,1.0],[0.0,0.0],self.jetpack.clone(),self.index));
+				ret.push(Projectile::new([self.x,self.y],3.14159*0.5,0.0,self.jetpack.clone(),self.index));
 				
 			}
 		}

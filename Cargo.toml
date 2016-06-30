@@ -7,11 +7,9 @@ authors = ["Joel W Kall"]
 name = "lgidcf"
 
 [dependencies]
-piston = "0.19.0"
-piston2d-graphics = "0.16.0"
-piston2d-opengl_graphics = "0.26.0"
-piston_window = "0.47.0"
+piston = "*"
+piston2d-graphics = "*"
+piston2d-opengl_graphics = "*"
+piston_window = "*"
 rand = "*"
 rustc-serialize = "0.3.19"
-gfx = "*"
-gfx_text = "*"

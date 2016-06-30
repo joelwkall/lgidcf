@@ -18,7 +18,6 @@ use piston_window::*;
 use app::*;
 
 fn main() {
-
 	const SIZE: [u32; 2] = [1024,768];
 
     // Create an Glutin window.

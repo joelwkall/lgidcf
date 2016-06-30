@@ -20,7 +20,7 @@ Design your own weapons, shoot and kill your family, friends and coworkers. Iden
 * [X] Deployment on computers without Rust installed (works with MSVC++ redist on windows)
 * [ ] Sound effects (using synth)
 * [ ] Weapon builder
-* [ ] Performance tuning
+* [ ] Performance tuning (use glium or gfx-rs instead of piston?)
 * [ ] Menus and stuff
 * [ ] Background image
 * [ ] Obstacles
@@ -28,7 +28,7 @@ Design your own weapons, shoot and kill your family, friends and coworkers. Iden
 * [ ] Sound effects on events (wavetype, length, pitch, volume)
 * [ ] Modify properties on events (speed, acceleration, shape, color)
 * [ ] Gradient colors (and alpha)
-* [ ] Acceleration property
+* [X] Acceleration property
 
 ##Design decisions
 

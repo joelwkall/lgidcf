@@ -13,7 +13,7 @@ pub struct ProjectileTemplate {
 	pub size:f64,
 	pub color:[f32;4],
 	pub speed:f64,
-	pub acceleration:f64,
+	pub acceleration:Option<f64>,
 	pub spread:f64,
 	pub bounce:f64,
 	pub friction:f64,

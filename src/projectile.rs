@@ -16,8 +16,9 @@ pub struct Projectile {
 	pub x: f64,
 	pub y: f64,
 	
-	pub speed_x: f64,
-	pub speed_y: f64,
+	
+	pub speed: f64,
+	pub direction: f64,
 	
 	pub owner_index: i32,
 	
@@ -31,27 +32,21 @@ impl Projectile {
     
 
 
-	pub fn new(pos:[f64;2],dir:[f64;2],speed:[f64;2],template:Rc<ProjectileTemplate>,owner:i32) -> Projectile {
+	pub fn new(pos:[f64;2],angle:f64,speed:f64,template:Rc<ProjectileTemplate>,owner:i32) -> Projectile {
 
-	
-		//normalize direction vector
-		let dx = dir[0];
-		let dy = dir[1];
-		let mut angle = (-dy).atan2(dx);
-		
+		//add spread
+		let mut new_angle = angle;
 		if template.spread > 0.0 {
 			let mut rng = rand::thread_rng();
-			angle += rng.gen_range::<f64>(-template.spread,template.spread)
+			new_angle += rng.gen_range::<f64>(-template.spread,template.spread);
 		}
-		
-		let dx = angle.cos();
-		let dy = -angle.sin();
+	
 	
 		Projectile {
-			x: pos[0],
+			x:pos[0],
 			y:pos[1],
-			speed_x:speed[0] + dx*template.speed,
-			speed_y:speed[1] + dy*template.speed,
+			speed:speed + template.speed,
+			direction:new_angle,
 			age:0.0,
 			template:template,
 			owner_index:owner
@@ -69,6 +64,9 @@ impl Projectile {
 	fn check_border_collision(&self, ret: &mut Projectile, data: &AppData) -> Vec<&ProjectileEvent>
 	{
 	
+		const HALFTURN:f64 = 3.14159;
+		const WHOLETURN:f64 = HALFTURN*2.0;
+	
 		let mut vec = Vec::new();
 	
 		let mut trigger_border_collision = false;
@@ -77,8 +75,8 @@ impl Projectile {
 		let reduction = 1.0-self.template.friction;
 		if self.x <= 0.0
 		{
-			ret.speed_x = -ret.speed_x*self.template.bounce;
-			ret.speed_y = ret.speed_y*reduction;
+			ret.direction = HALFTURN - ret.direction; //mirror angle along y axis
+			ret.speed = ret.speed*reduction;
 			ret.x = 1.0;
 			
 			trigger_border_collision=true;
@@ -86,8 +84,8 @@ impl Projectile {
 		
 		if self.x >= (data.width as f64)
 		{
-			ret.speed_x = -ret.speed_x*self.template.bounce;
-			ret.speed_y = ret.speed_y*reduction;
+			ret.direction = HALFTURN - ret.direction; //mirror angle along y axis
+			ret.speed = ret.speed*reduction;
 			ret.x = (data.width as f64)-1.0;
 			
 			trigger_border_collision=true;
@@ -95,8 +93,8 @@ impl Projectile {
 	
 		if self.y <= 0.0
 		{
-			ret.speed_y = -ret.speed_y*self.template.bounce;
-			ret.speed_x = ret.speed_x*reduction;
+			ret.direction = -ret.direction; //mirror angle along x axis
+			ret.speed = ret.speed*reduction;
 			ret.y = 1.0;
 			
 			trigger_border_collision=true;
@@ -104,11 +102,16 @@ impl Projectile {
 		
 		if self.y >= (data.height as f64)
 		{
-			ret.speed_y = -ret.speed_y*self.template.bounce;
-			ret.speed_x = ret.speed_x*reduction;
+			ret.direction = -ret.direction; //mirror angle along x axis
+			ret.speed = ret.speed*reduction;
 			ret.y = (data.height as f64)-1.0;
 			
 			trigger_border_collision=true;
+		}
+		
+		//normalize angle
+		while ret.direction < 0.0 {
+			ret.direction += WHOLETURN;
 		}
 		
 		if trigger_border_collision {
@@ -171,7 +174,7 @@ impl Projectile {
 		const STATIONARY_THRESHHOLD : f64 = 1.0;
 		let mut vec = Vec::new();
 	
-		if self.speed_x.abs() < STATIONARY_THRESHHOLD && self.speed_y.abs() < STATIONARY_THRESHHOLD {
+		if self.speed.abs() < STATIONARY_THRESHHOLD {
 			for e in &self.template.events {
 				
 				match e.event_type {
@@ -254,12 +257,20 @@ impl Projectile {
 		
 		const PIXELS_PER_METER:f64 = 10.0;
 		
+		//add gravity
+		let gravity = 9.81*args.dt*PIXELS_PER_METER;
+		let dx = ret.speed*ret.direction.cos(); //calculate speed in x direction
+		let dy = ret.speed*ret.direction.sin() + gravity; //calculate y speed and add gravity
+		ret.direction = (dy).atan2(dx); //set new direction based on dx and dy
+		ret.speed += gravity*ret.direction.sin(); // add gravity to speed
 		
-		ret.speed_y += 9.81*args.dt*PIXELS_PER_METER; //add gravity
+		//add acceleration
+		//TODO: acceleration should not affect speed gained by gravity?
+		ret.speed += ret.template.acceleration.unwrap_or(0.0)*args.dt;
 		
-		
-		ret.x = ret.x + ret.speed_x*args.dt;
-		ret.y = ret.y + ret.speed_y*args.dt;
+		//calculate new position
+		ret.x = ret.x + ret.speed*ret.direction.cos()*args.dt;
+		ret.y = ret.y + ret.speed*ret.direction.sin()*args.dt;
 		
 	
 		let mut return_vec = Vec::new();
@@ -273,7 +284,7 @@ impl Projectile {
 					for p in vec {
 			
 						for _ in 0..p.number {
-							return_vec.push(Projectile::new([ret.x,ret.y],[ret.speed_x,ret.speed_y],[ret.speed_x,ret.speed_y],p.clone(),ret.owner_index)); //use updated projectile values
+							return_vec.push(Projectile::new([ret.x,ret.y],ret.direction,ret.speed,p.clone(),ret.owner_index)); //use updated projectile values
 						}
 					}
 				},
