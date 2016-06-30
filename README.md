@@ -29,6 +29,7 @@ Design your own weapons, shoot and kill your family, friends and coworkers. Iden
 * [ ] Modify properties on events (speed, acceleration, shape, color)
 * [ ] Gradient colors (and alpha)
 * [X] Acceleration property
+* [ ] Speed additive or multiplicative (for different types of projectiles)
 
 ##Design decisions
 
