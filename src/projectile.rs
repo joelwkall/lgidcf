@@ -255,7 +255,9 @@ impl Projectile {
 		const PIXELS_PER_METER:f64 = 10.0;
 		
 		
-		ret.speed_y = ret.speed_y + 9.81*args.dt*PIXELS_PER_METER; //add gravity
+		ret.speed_y += 9.81*args.dt*PIXELS_PER_METER; //add gravity
+		
+		
 		ret.x = ret.x + ret.speed_x*args.dt;
 		ret.y = ret.y + ret.speed_y*args.dt;
 		
