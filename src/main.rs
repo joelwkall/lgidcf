@@ -9,14 +9,12 @@ extern crate piston_window;
 extern crate piston;
 extern crate rand;
 extern crate rustc_serialize;
-extern crate gfx_text;
-extern crate gfx_core;
-extern crate gfx_device_gl;
+extern crate graphics;
+extern crate gfx_graphics;
 
+use std::env::current_exe;
 use piston_window::*;
-// use gfx_core::factory::Factory;
-// use gfx_text::*;
-// use gfx_device_gl::Resources;
+use gfx_graphics::GlyphCache;
 
 use app::*;
 
@@ -33,13 +31,19 @@ fn main() {
         .unwrap();
 		
 		
-	//let mut text = gfx_text::new(window.factory.clone()).build().unwrap();
-
+	
     // Create a new game and run it.
     let mut app = App::new(SIZE[0],SIZE[1]);
 	
 	let mut frames = 0;
 	let mut passed = 0.0;
+	
+	let exe_directory = current_exe().unwrap().parent().unwrap().to_owned();
+	let path = &exe_directory.join("resources/FiraMono-Bold.ttf");
+	
+	println!("path: {}", path.to_str().unwrap());
+	
+	let mut font = GlyphCache::new(path,window.factory.clone()).unwrap();
 
     while let Some(e) = window.next() {
 			
@@ -48,14 +52,14 @@ fn main() {
 				app.render(&c,g);
 				frames+=1;
 				
-				// text.add(
-					// "The quick brown fox jumps over the lazy dog",  // Text to add
-					// [10, 10],                                       // Position
-					// [0.65, 0.16, 0.16, 1.0],                        // Text color
-				// );
-
-				// //Draw text.
-				// text.draw(&mut window.encoder,&window.output_color);
+				// Render the score
+				let mut text = Text::new(22);
+				text.color = [0.0, 0.0, 1.0, 1.0];
+				text.draw(&format!("Score: {}", 5.0),
+						  &mut font,
+						  &c.draw_state,
+						  c.trans(10.0, 20.0).transform,
+						  g);
 			});
         }
 
