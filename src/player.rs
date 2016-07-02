@@ -40,7 +40,6 @@ impl Player {
 		let mut ret = Vec::new();
 		
 		let angle = (self.dir[1]).atan2(self.dir[0]);
-		
 		let speed =(self.speed_x*self.speed_x + self.speed_y*self.speed_y).sqrt();
 		
 		for t in &self.device.projectiles {
@@ -119,7 +118,7 @@ impl Player {
 
 		//jetpack
 		if self.y > 0.0 && data.key_is_pressed(self.settings.key_jetpack) {
-			self.speed_y -= 10.0;
+			self.speed_y -= 5.0;
 
 			for _ in 0..self.jetpack.number {
 				ret.push(Projectile::new([self.x,self.y],3.14159*0.5,0.0,self.jetpack.clone(),self.index));
@@ -153,12 +152,12 @@ impl Player {
 			self.x = 25.0;
 		}
 		
+		//add gravity
 		self.y += self.speed_y*args.dt;
 		
+		
+		//shoot device
 		self.time_since_shot += args.dt;
-		
-		
-		
 		if self.time_since_shot > self.device.cooldown && data.key_is_pressed(self.settings.key_fire) {
 		
 			let projectiles = self.throw_projectiles();
@@ -167,6 +166,8 @@ impl Player {
 			ret.extend(projectiles);
 		}
 		
+		
+		//get hit
 		for p in &data.projectiles {
 		
 			match p.template.damage {

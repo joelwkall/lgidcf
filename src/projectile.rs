@@ -24,7 +24,9 @@ pub struct Projectile {
 	
 	pub template: Rc<ProjectileTemplate>,
 	
-	age:f64
+	age:f64,
+	
+	shape: [f64;4]
 }
 
 
@@ -36,28 +38,28 @@ impl Projectile {
 
 		//add spread
 		let mut new_angle = angle;
-		if template.spread > 0.0 {
+		if template.spread.unwrap_or(0.0) > 0.0 {
 			let mut rng = rand::thread_rng();
-			new_angle += rng.gen_range::<f64>(-template.spread,template.spread);
+			new_angle += rng.gen_range::<f64>(-template.spread.unwrap_or(0.0),template.spread.unwrap_or(0.0));
 		}
 	
 	
 		Projectile {
 			x:pos[0],
 			y:pos[1],
-			speed:speed + template.speed,
+			speed:speed*template.inherit_speed.unwrap_or(0.0) + template.initial_speed.unwrap_or(0.0),
 			direction:new_angle,
 			age:0.0,
+			shape: rectangle::square(0.0, 0.0, template.size),
 			template:template,
 			owner_index:owner
 		}
 	}
 
 	pub fn render(&self, c:&Context, g: &mut G2d) {
-
-        let square = rectangle::square(0.0, 0.0, self.template.size);
+	
 		let transform = c.transform.trans(self.x-self.template.size/2.0,self.y-self.template.size/2.0);
-		rectangle(self.template.color, square, transform, g);
+		rectangle(self.template.color, self.shape, transform, g);
 
     }
 	
@@ -72,7 +74,7 @@ impl Projectile {
 		let mut trigger_border_collision = false;
 		
 		//TODO: fix this weird algorithm so it doesnt need to move 1px
-		let reduction = 1.0-self.template.friction;
+		let reduction = 1.0-self.template.friction.unwrap_or(0.0);
 		if self.x <= 0.0
 		{
 			ret.direction = HALFTURN - ret.direction; //mirror angle along y axis

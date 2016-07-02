@@ -12,11 +12,11 @@ pub struct ProjectileTemplate {
 	pub number:i32,
 	pub size:f64,
 	pub color:[f32;4],
-	pub speed:f64,
+	pub initial_speed:Option<f64>,
+	pub inherit_speed:Option<f64>,
 	pub acceleration:Option<f64>,
-	pub spread:f64,
-	pub bounce:f64,
-	pub friction:f64,
+	pub spread:Option<f64>,
+	pub friction:Option<f64>,
 	pub events: Vec<ProjectileEvent>,
 	pub damage:Option<f64>
 }

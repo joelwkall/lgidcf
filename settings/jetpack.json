@@ -3,8 +3,7 @@
 	"size":5.0,
 	"spread":0.1,
 	"color":[0.5,0.5,1.0,0.5],
-	"speed":300.0,
-	"bounce":0.1,
+	"initial_speed":300.0,
 	"friction":0.7,
 	"events":[
 		{
