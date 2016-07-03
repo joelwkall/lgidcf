@@ -4,6 +4,9 @@ extern crate piston;
 use std::rc::Rc;
 
 use piston_window::*;
+use gfx_graphics::GlyphCache;
+use gfx_device_gl::Factory;
+use gfx_device_gl::Resources;
 
 use projectile::*;
 use appdata::*;
@@ -13,6 +16,7 @@ use settings::*;
 pub struct Player {
 	
 	pub index: i32,
+	pub name: String,
 	
 	pub x: f64,
 	pub y: f64,
@@ -52,7 +56,7 @@ impl Player {
 
 	}
 
-    pub fn render(&self, c:&Context, g: &mut G2d) {
+    pub fn render(&self, c:&Context, g: &mut G2d,font: &mut GlyphCache<Resources,Factory>) {
 
 		if self.health <= 0.0 {
 			return
@@ -66,10 +70,18 @@ impl Player {
 		let transform = c.transform.trans(20.0,(self.index as f64 +1.0)*20.0).scale(self.health/100.0,0.1);
 		rectangle(self.settings.color, life_bar, transform, g);
 		
-		// let name = match self.settings.name {
-			// None => {"Noname".to_string()},
-			// Some(ref n) => {n.to_string()}
-		// };
+		let name = match self.settings.name {
+			None => {"Noname".to_string()},
+			Some(ref n) => {n.to_string()}
+		};
+		
+		let mut text = Text::new(10);
+		text.color = [0.0, 0.0, 1.0, 1.0];
+		text.draw(&format!("{}", name),
+		  font,
+		  &c.draw_state,
+		  c.trans(20.0, (self.index as f64 + 1.0)*20.0).transform,
+		  g); 
 		
 	
     }

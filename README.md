@@ -24,7 +24,7 @@ Design your own weapons, shoot and kill your family, friends and coworkers. Iden
 * [ ] Menus and stuff
 * [ ] Background image
 * [ ] Obstacles
-* [ ] Player names
+* [X] Player names
 * [ ] Sound effects on events (wavetype, length, pitch, volume)
 * [ ] Modify properties on events (speed, acceleration, shape, color)
 * [ ] Gradient colors (and alpha)

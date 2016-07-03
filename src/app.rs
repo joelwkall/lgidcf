@@ -8,15 +8,17 @@ use std::fs::File;
 use std::io::Read;
 use std::rc::Rc;
 
-
 use piston_window::*;
+
 
 use appdata::AppData;
 use player::Player;
 use projectile::Projectile;
 use device::*;
 use settings::*;
-
+use gfx_graphics::GlyphCache;
+use gfx_device_gl::Factory;
+use gfx_device_gl::Resources;
 
 
 pub struct App {
@@ -24,6 +26,8 @@ pub struct App {
 	
 	pub data: AppData
 }
+
+
 
 impl App {
 
@@ -64,11 +68,12 @@ impl App {
 				jetpack: j.clone(),
 				settings: p.clone(),
 				health:100.0,
-				index:i as i32
+				index:i as i32,
+				name: "Noname".to_string()
 			};
 			
 			players.push(player);
-		}
+		};
 	
 		App {
 			players: players,
@@ -84,7 +89,7 @@ impl App {
 		
 	}
 
-    pub fn render(&self, c:&Context, g: &mut G2d) {
+    pub fn render(&self, c:&Context, g: &mut G2d,font: &mut GlyphCache<Resources,Factory>) {
 
         const GREEN: [f32; 4] = [0.0, 1.0, 0.0, 1.0];
         
@@ -95,9 +100,16 @@ impl App {
 			d.render(&c,g);
 		}
 		
+		
+		
 		for p in &self.players {
-			p.render(&c,g);
+			p.render(&c,g,font);
+			
+			
 		}
+		
+		
+		
     
     }
 

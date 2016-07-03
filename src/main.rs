@@ -11,12 +11,20 @@ extern crate rand;
 extern crate rustc_serialize;
 extern crate graphics;
 extern crate gfx_graphics;
+extern crate gfx_core;
+extern crate gfx_texture;
+extern crate gfx_device_gl;
+extern crate opengl_graphics;
+
 
 use std::env::current_exe;
 use piston_window::*;
 use gfx_graphics::GlyphCache;
+use gfx_device_gl::Factory;
+use gfx_device_gl::Resources;
 
 use app::*;
+
 
 fn main() {
 	const SIZE: [u32; 2] = [1024,768];
@@ -30,7 +38,17 @@ fn main() {
         .build()
         .unwrap();
 		
-		
+	
+	//create a font
+	let exe_directory = current_exe().unwrap().parent().unwrap().to_owned();
+	let path = &exe_directory.join("resources/FiraMono-Bold.ttf");
+	
+	let mut font:GlyphCache<Resources,Factory> = GlyphCache::new(path,window.factory.clone()).unwrap();
+	
+	//TODO: figure out how to pass this to app...
+	
+	
+
 	
     // Create a new game and run it.
     let mut app = App::new(SIZE[0],SIZE[1]);
@@ -38,28 +56,14 @@ fn main() {
 	let mut frames = 0;
 	let mut passed = 0.0;
 	
-	let exe_directory = current_exe().unwrap().parent().unwrap().to_owned();
-	let path = &exe_directory.join("resources/FiraMono-Bold.ttf");
 	
-	println!("path: {}", path.to_str().unwrap());
 	
-	let mut font = GlyphCache::new(path,window.factory.clone()).unwrap();
-
     while let Some(e) = window.next() {
 			
 		if let Some(_) = e.render_args() {
 			window.draw_2d(&e,|c, g| {
-				app.render(&c,g);
+				app.render(&c,g,&mut font);
 				frames+=1;
-				
-				// Render the score
-				let mut text = Text::new(22);
-				text.color = [0.0, 0.0, 1.0, 1.0];
-				text.draw(&format!("Score: {}", 5.0),
-						  &mut font,
-						  &c.draw_state,
-						  c.trans(10.0, 20.0).transform,
-						  g);
 			});
         }
 
