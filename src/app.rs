@@ -1,6 +1,4 @@
-extern crate piston_window;
-extern crate piston;
-extern crate rustc_serialize;
+
 
 
 use rustc_serialize::json::decode;

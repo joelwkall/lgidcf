@@ -11,10 +11,7 @@ extern crate rand;
 extern crate rustc_serialize;
 extern crate graphics;
 extern crate gfx_graphics;
-extern crate gfx_core;
-extern crate gfx_texture;
 extern crate gfx_device_gl;
-extern crate opengl_graphics;
 
 
 use std::env::current_exe;

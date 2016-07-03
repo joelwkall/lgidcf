@@ -1,6 +1,3 @@
-extern crate piston_window;
-extern crate piston;
-
 use std::rc::Rc;
 
 use piston_window::*;

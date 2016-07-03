@@ -1,5 +1,3 @@
-extern crate piston_window;
-extern crate piston;
 extern crate rand;
 
 use std::rc::Rc;

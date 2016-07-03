@@ -1,5 +1,3 @@
-extern crate piston_window;
-extern crate piston;
 
 use std::collections::HashMap;
 
