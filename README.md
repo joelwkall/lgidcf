@@ -9,8 +9,8 @@ Design your own weapons, shoot and kill your family, friends and coworkers. Iden
 
 ##TODO
 
-* [ ] More shapes of weapons (circle, rectangle, triangle)
-* [ ] Rotation of shape
+* [ ] More shapes of weapons (~~circle~~, ~~rectangle~~, triangle, line)
+* [ ] Rotation of shape (will make hit detection harder)
 * [X] More events for weapons (timed)
 * [ ] Multiple weapons
 * [X] Life bars
@@ -25,10 +25,10 @@ Design your own weapons, shoot and kill your family, friends and coworkers. Iden
 * [ ] Background image
 * [ ] Obstacles
 * [X] Player names
-* [ ] Modify properties on events (speed, acceleration, shape, color)
+* [ ] Modify property on event (using set, add or multiply)
 * [ ] Gradient colors (and alpha)
 * [X] Acceleration property
-* [ ] Speed additive or multiplicative (for different types of projectiles)
+* [X] Speed additive or multiplicative (for different types of projectiles)
 * [ ] Recoil and impact force
 
 ##Design decisions
