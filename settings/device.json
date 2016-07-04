@@ -4,7 +4,11 @@
 	"projectiles":[
 		{
 			"number":1,
-			"size":15.0,
+			"shape":{
+				"width":15.0,
+				"height":15.0,
+				"shape_type":"Rectangle"
+			},
 			"spread":0.05,
 			"color":[0.0,0.0,0.0,1.0],
 			"inherit_speed":1.0,
@@ -18,7 +22,11 @@
 						{
 							"number":7,
 							"spread":3.14,
-							"size":10.0,
+							"shape":{
+								"width":10.0,
+								"height":10.0,
+								"shape_type":"Ellipse"
+							},
 							"color":[1.0,1.0,1.0,0.5],
 							"inherit_speed":0.0,
 							"initial_speed":50.0,
@@ -40,7 +48,11 @@
 						{
 							"number":10,
 							"spread":0.5,
-							"size":5.0,
+							"shape":{
+								"width":5.0,
+								"height":5.0,
+								"shape_type":"Rectangle"
+							},
 							"color":[0.5,0.0,0.0,1.0],
 							"inherit_speed":0.0,
 							"initial_speed":150.0,
@@ -63,7 +75,11 @@
 						{
 							"number":1,
 							"spread":0.4,
-							"size":3.0,
+							"shape":{
+								"width":3.0,
+								"height":3.0,
+								"shape_type":"Rectangle"
+							},
 							"color":[1.0,0.5,0.5,0.8],
 							"initial_speed":30.0,
 							"friction":0.1,

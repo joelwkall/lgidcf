@@ -183,10 +183,10 @@ impl Player {
 				Some(d) => {
 					if 
 						self.index != p.owner_index &&					//only take damage from other players projectiles
-						p.x - p.template.size/2.0 < self.x+25.0 &&
-						p.x + p.template.size/2.0 > self.x-25.0 &&
-						p.y - p.template.size/2.0 < self.y+25.0 &&
-						p.y + p.template.size/2.0 > self.y-25.0
+						p.x - p.template.shape.width/2.0 < self.x+25.0 &&
+						p.x + p.template.shape.width/2.0 > self.x-25.0 &&
+						p.y - p.template.shape.height/2.0 < self.y+25.0 &&
+						p.y + p.template.shape.height/2.0 > self.y-25.0
 
 					{
 						self.health -= d;

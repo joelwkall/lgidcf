@@ -1,6 +1,10 @@
 {
 	"number":2,
-	"size":5.0,
+	"shape":{
+		"width":5.0,
+		"height":5.0,
+		"shape_type":"Rectangle"
+	},
 	"spread":0.1,
 	"color":[0.5,0.5,1.0,0.5],
 	"initial_speed":300.0,

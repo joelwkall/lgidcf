@@ -9,6 +9,8 @@ use player::Player;
 use appdata::*;
 use device::*;
 
+
+
 pub struct Projectile {
 
 	pub x: f64,
@@ -22,9 +24,8 @@ pub struct Projectile {
 	
 	pub template: Rc<ProjectileTemplate>,
 	
-	age:f64,
-	
-	shape: [f64;4]
+	age:f64
+
 }
 
 
@@ -42,22 +43,44 @@ impl Projectile {
 		}
 	
 	
-		Projectile {
+		let ret = Projectile {
 			x:pos[0],
 			y:pos[1],
 			speed:speed*template.inherit_speed.unwrap_or(0.0) + template.initial_speed.unwrap_or(0.0),
 			direction:new_angle,
 			age:0.0,
-			shape: rectangle::square(0.0, 0.0, template.size),
 			template:template,
 			owner_index:owner
-		}
+		};
+		
+		//println!("shape: {},{},{},{}",ret.polygon[0][0],ret.polygon[0][1],ret.polygon[1][0],ret.polygon[1][1]);
+		
+		ret
 	}
 
 	pub fn render(&self, c:&Context, g: &mut G2d) {
 	
-		let transform = c.transform.trans(self.x-self.template.size/2.0,self.y-self.template.size/2.0);
-		rectangle(self.template.color, self.shape, transform, g);
+		let transform = c.transform.trans(self.x,self.y);
+		
+		match self.template.shape.shape_type {
+			ShapeTypes::Rectangle => { 
+				rectangle(
+				self.template.color, 
+				rectangle::centered([0.0,0.0,self.template.shape.width/2.0,self.template.shape.height/2.0]), 
+				transform, 
+				g);
+			},
+			ShapeTypes::Ellipse => { 
+				ellipse(
+				self.template.color, 
+				rectangle::centered([0.0,0.0,self.template.shape.width/2.0,self.template.shape.height/2.0]), 
+				transform, 
+				g);
+			}
+		}
+	
+		
+		
 
     }
 	
@@ -141,10 +164,10 @@ impl Projectile {
 		
 			if 
 				self.owner_index != p.index &&					//only match non-owner players
-				self.x - self.template.size/2.0 < p.x+25.0 &&
-				self.x + self.template.size/2.0 > p.x-25.0 &&
-				self.y - self.template.size/2.0 < p.y+25.0 &&
-				self.y + self.template.size/2.0 > p.y-25.0
+				self.x - self.template.shape.width/2.0 < p.x+25.0 &&
+				self.x + self.template.shape.width/2.0 > p.x-25.0 &&
+				self.y - self.template.shape.height/2.0 < p.y+25.0 &&
+				self.y + self.template.shape.height/2.0 > p.y-25.0
 
 			{
 				trigger_collision=true;

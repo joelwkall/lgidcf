@@ -10,7 +10,6 @@ pub struct Device {
 #[derive(RustcDecodable)]
 pub struct ProjectileTemplate {
 	pub number:i32,
-	pub size:f64,
 	pub color:[f32;4],
 	pub initial_speed:Option<f64>,
 	pub inherit_speed:Option<f64>,
@@ -18,7 +17,8 @@ pub struct ProjectileTemplate {
 	pub spread:Option<f64>,
 	pub friction:Option<f64>,
 	pub events: Vec<ProjectileEvent>,
-	pub damage:Option<f64>
+	pub damage:Option<f64>,
+	pub shape:Shape
 }
 
 #[derive(RustcDecodable)]
@@ -37,4 +37,17 @@ pub enum ProjectileEventTypes {
 	PlayerCollision,
 	Stopped,
 	Timer
+}
+
+#[derive(RustcDecodable)]
+pub struct Shape {
+	pub width: f64,
+	pub height:f64,
+	pub shape_type: ShapeTypes
+}
+
+#[derive(RustcDecodable)]
+pub enum ShapeTypes {
+	Rectangle,
+	Ellipse
 }
