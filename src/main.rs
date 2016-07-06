@@ -24,13 +24,15 @@ use app::*;
 
 
 fn main() {
-	const SIZE: [u32; 2] = [1024,768];
+	const SIZE: [u32; 2] = [1280,1024];
 
     // Create an Glutin window.
     let mut window: PistonWindow = WindowSettings::new(
             "lgidcf",
             SIZE
         )
+		.vsync(true)
+		.fullscreen(true)
         .exit_on_esc(true)
         .build()
         .unwrap();
@@ -53,6 +55,7 @@ fn main() {
 	let mut frames = 0;
 	let mut passed = 0.0;
 	
+	let mut fps:f64 = 0.0;
 	
 	
     while let Some(e) = window.next() {
@@ -61,12 +64,22 @@ fn main() {
 			window.draw_2d(&e,|c, g| {
 				app.render(&c,g,&mut font);
 				frames+=1;
+				
+				//print debug info
+				let num_objs = app.num_objects();
+				
+				let mut text = Text::new(10);
+				text.color = [0.0, 0.0, 1.0, 1.0];
+				text.draw(&format!("FPS: {}, Objects: {}", fps.round() as i32,num_objs),
+				  &mut font,
+				  &c.draw_state,
+				  c.trans((SIZE[0] as f64)-250.0, 20.0).transform,
+				  g); 
 			});
         }
 
         if let Some(u) = e.update_args() {
 		
-			let num_objs = app.num_objects();
 		
 			app.update(&u);
 			
@@ -74,9 +87,7 @@ fn main() {
 			
 			if passed > 1.0 {
 		
-				let fps = (frames as f64) / passed;
-				
-				println!("FPS: {}, {}",fps,num_objs);
+				fps = (frames as f64) / passed;
 				
 				frames = 0;
 				passed = 0.0;

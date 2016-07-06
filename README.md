@@ -16,7 +16,7 @@ Design your own weapons, shoot and kill your family, friends and coworkers. Iden
 * [X] Life bars
 * [ ] Jetpack fuel bars
 * [ ] Scorekeeping
-* [ ] Fullscreen
+* [X] Fullscreen
 * [X] Deployment on computers without Rust installed (works with MSVC++ redist on windows)
 * [ ] Sound effects (using synth)
 * [ ] Weapon builder
