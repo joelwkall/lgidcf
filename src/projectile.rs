@@ -58,7 +58,7 @@ impl Projectile {
 
 	pub fn render(&self, c:&Context, g: &mut G2d) {
 	
-		let transform = c.transform.trans(self.x,self.y);
+		let transform = c.transform.trans(self.x,self.y).rot_rad(self.direction);
 		
 		//TODO: create the shape once, and draw multiple times
 		match self.template.shape.shape_type {

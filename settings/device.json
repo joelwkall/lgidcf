@@ -6,7 +6,7 @@
 			"number":1,
 			"shape":{
 				"width":15.0,
-				"height":15.0,
+				"height":10.0,
 				"shape_type":"Rectangle"
 			},
 			"spread":0.05,
@@ -46,12 +46,12 @@
 					"die":true,
 					"spawn_projectiles":[
 						{
-							"number":10,
+							"number":5,
 							"spread":0.5,
 							"shape":{
 								"width":5.0,
-								"height":5.0,
-								"shape_type":"Rectangle"
+								"height":3.0,
+								"shape_type":"Ellipse"
 							},
 							"color":[0.5,0.0,0.0,1.0],
 							"inherit_speed":0.0,

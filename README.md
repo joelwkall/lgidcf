@@ -10,7 +10,7 @@ Design your own weapons, shoot and kill your family, friends and coworkers. Iden
 ##TODO
 
 * [ ] More shapes of weapons (~~circle~~, ~~rectangle~~, triangle, line)
-* [ ] Rotation of shape (will make hit detection harder)
+* [X] Rotation of shape (will make hit detection with obstacles harder)
 * [X] More events for weapons (timed)
 * [ ] Multiple weapons
 * [X] Life bars
@@ -35,3 +35,4 @@ Design your own weapons, shoot and kill your family, friends and coworkers. Iden
 
 - Jetpack as a device instead?
 - Large map with zoom in on players?
+- Size of player relative to health?
