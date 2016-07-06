@@ -36,3 +36,4 @@ Design your own weapons, shoot and kill your family, friends and coworkers. Iden
 - Jetpack as a device instead?
 - Large map with zoom in on players?
 - Size of player relative to health?
+- Images as players/projectiles/obstacles or keep it simple?
