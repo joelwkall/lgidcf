@@ -33,9 +33,9 @@ fn main() {
         )
 		.vsync(true)
 		.fullscreen(true)
-        .exit_on_esc(true)
-        .build()
-        .unwrap();
+		.exit_on_esc(true)
+		.build()
+		.unwrap();
 		
 	
 	//create a font
