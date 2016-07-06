@@ -53,8 +53,6 @@ impl Projectile {
 			owner_index:owner
 		};
 		
-		//println!("shape: {},{},{},{}",ret.polygon[0][0],ret.polygon[0][1],ret.polygon[1][0],ret.polygon[1][1]);
-		
 		ret
 	}
 
@@ -62,20 +60,18 @@ impl Projectile {
 	
 		let transform = c.transform.trans(self.x,self.y);
 		
+		//TODO: create the shape once, and draw multiple times
 		match self.template.shape.shape_type {
 			ShapeTypes::Rectangle => { 
-				rectangle(
-				self.template.color, 
-				rectangle::centered([0.0,0.0,self.template.shape.width/2.0,self.template.shape.height/2.0]), 
-				transform, 
-				g);
+			
+				Rectangle::new(self.template.color)
+					.draw(rectangle::centered([0.0,0.0,self.template.shape.width/2.0,self.template.shape.height/2.0]), &Default::default(), transform, g);
 			},
 			ShapeTypes::Ellipse => { 
-				ellipse(
-				self.template.color, 
-				rectangle::centered([0.0,0.0,self.template.shape.width/2.0,self.template.shape.height/2.0]), 
-				transform, 
-				g);
+			
+				Ellipse::new(self.template.color)
+					.resolution(10)
+					.draw(rectangle::centered([0.0,0.0,self.template.shape.width/2.0,self.template.shape.height/2.0]), &Default::default(), transform, g);
 			}
 		}
 	
@@ -163,6 +159,7 @@ impl Projectile {
 		for p in players {
 		
 			if 
+				p.health > 0.0 && //ignore dead players
 				self.owner_index != p.index &&					//only match non-owner players
 				self.x - self.template.shape.width/2.0 < p.x+25.0 &&
 				self.x + self.template.shape.width/2.0 > p.x-25.0 &&
@@ -215,7 +212,7 @@ impl Projectile {
 	{
 		let mut vec = Vec::new();
 		
-		
+		//TODO: add support for start and stop time for repeating timers (for rockets etc)
 		for e in &self.template.events {
 			
 

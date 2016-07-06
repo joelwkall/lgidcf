@@ -77,7 +77,7 @@
 							"spread":0.4,
 							"shape":{
 								"width":3.0,
-								"height":3.0,
+								"height":1.0,
 								"shape_type":"Rectangle"
 							},
 							"color":[1.0,0.5,0.5,0.8],
