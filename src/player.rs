@@ -53,13 +53,13 @@ impl Player {
 
 	}
 
-    pub fn render(&self, c:&Context, g: &mut G2d,font: &mut GlyphCache<Resources,Factory>) {
+	pub fn render(&self, c:&Context, g: &mut G2d,font: &mut GlyphCache<Resources,Factory>) {
 
 		if self.health <= 0.0 {
 			return
 		}
 	
-        let square = rectangle::square(0.0, 0.0, 50.0);
+		let square = rectangle::square(0.0, 0.0, 50.0);
 		let transform = c.transform.trans(self.x-25.0,self.y-25.0);
 		rectangle(self.settings.color, square, transform, g);
 		
@@ -81,9 +81,9 @@ impl Player {
 		  g); 
 		
 	
-    }
+	}
 
-    pub fn update(&mut self, args: &UpdateArgs, data: &AppData) -> Option<Vec<Projectile>> {
+	pub fn update(&mut self, args: &UpdateArgs, data: &AppData) -> Option<Vec<Projectile>> {
 		
 		
 		
@@ -201,7 +201,7 @@ impl Player {
 		
 		
 		
-    }
+	}
 	
 	
 }

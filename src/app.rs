@@ -87,10 +87,10 @@ impl App {
 		
 	}
 
-    pub fn render(&self, c:&Context, g: &mut G2d,font: &mut GlyphCache<Resources,Factory>) {
+	pub fn render(&self, c:&Context, g: &mut G2d,font: &mut GlyphCache<Resources,Factory>) {
 
-        const GREEN: [f32; 4] = [0.0, 1.0, 0.0, 1.0];
-        
+		const GREEN: [f32; 4] = [0.0, 1.0, 0.0, 1.0];
+		
 		//clear the screen.
 		clear(GREEN, g);
 		
@@ -108,10 +108,10 @@ impl App {
 		
 		
 		
-    
-    }
+	
+	}
 
-    pub fn update(&mut self, args: &UpdateArgs) {
+	pub fn update(&mut self, args: &UpdateArgs) {
 		
 	
 		let mut new_projectiles:Vec<Projectile> = Vec::new();
@@ -140,7 +140,7 @@ impl App {
 		
 		//self.data.objects = newObjects;
 		self.data.projectiles = new_projectiles;
-    }
+	}
 	
 	pub fn handle_button_pressed(&mut self, button: Button) {
 

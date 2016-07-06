@@ -26,11 +26,11 @@ use app::*;
 fn main() {
 	const SIZE: [u32; 2] = [1280,1024];
 
-    // Create an Glutin window.
-    let mut window: PistonWindow = WindowSettings::new(
-            "lgidcf",
-            SIZE
-        )
+	// Create an Glutin window.
+	let mut window: PistonWindow = WindowSettings::new(
+			"lgidcf",
+			SIZE
+		)
 		.vsync(true)
 		.fullscreen(true)
 		.exit_on_esc(true)
@@ -45,8 +45,8 @@ fn main() {
 	let mut font:GlyphCache<Resources,Factory> = GlyphCache::new(path,window.factory.clone()).unwrap();
 
 	
-    // Create a new game and run it.
-    let mut app = App::new(SIZE[0],SIZE[1]);
+	// Create a new game and run it.
+	let mut app = App::new(SIZE[0],SIZE[1]);
 	
 	let mut frames = 0;
 	let mut passed = 0.0;
@@ -54,7 +54,7 @@ fn main() {
 	let mut fps:f64 = 0.0;
 	
 	
-    while let Some(e) = window.next() {
+	while let Some(e) = window.next() {
 			
 		if let Some(_) = e.render_args() {
 			window.draw_2d(&e,|c, g| {
@@ -72,9 +72,9 @@ fn main() {
 				  c.trans((SIZE[0] as f64)-250.0, 20.0).transform,
 				  g); 
 			});
-        }
+		}
 
-        if let Some(u) = e.update_args() {
+		if let Some(u) = e.update_args() {
 		
 		
 			app.update(&u);
@@ -89,7 +89,7 @@ fn main() {
 				passed = 0.0;
 			
 			}
-        }
+		}
 		
 		if let Some(b) = e.press_args() {
 			app.handle_button_pressed(b);
@@ -107,5 +107,5 @@ fn main() {
 		
 		
 		
-    }
+	}
 }

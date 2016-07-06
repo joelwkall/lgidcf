@@ -30,7 +30,7 @@ pub struct Projectile {
 
 
 impl Projectile {
-    
+	
 
 
 	pub fn new(pos:[f64;2],angle:f64,speed:f64,template:Rc<ProjectileTemplate>,owner:i32) -> Projectile {
@@ -78,7 +78,7 @@ impl Projectile {
 		
 		
 
-    }
+	}
 	
 	fn check_border_collision(&self, ret: &mut Projectile, data: &AppData) -> Vec<&ProjectileEvent>
 	{
@@ -246,7 +246,7 @@ impl Projectile {
 	
 	}
 
-    pub fn update(&self, args: &UpdateArgs, data: &AppData, players: &Vec<Player>) -> Vec<Projectile> {
+	pub fn update(&self, args: &UpdateArgs, data: &AppData, players: &Vec<Player>) -> Vec<Projectile> {
 		
 		let mut ret = Projectile {
 				age:self.age+args.dt,
@@ -325,5 +325,5 @@ impl Projectile {
 	
 
 		return_vec
-    }
+	}
 }
