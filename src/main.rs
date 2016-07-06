@@ -43,10 +43,6 @@ fn main() {
 	let path = &exe_directory.join("resources/FiraMono-Bold.ttf");
 	
 	let mut font:GlyphCache<Resources,Factory> = GlyphCache::new(path,window.factory.clone()).unwrap();
-	
-	//TODO: figure out how to pass this to app...
-	
-	
 
 	
     // Create a new game and run it.
