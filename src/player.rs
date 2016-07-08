@@ -85,7 +85,16 @@ impl Player {
 		text.color = [1.0, 1.0, 1.0, 1.0];
 		
 	
+		let device_name = match self.get_current_device(data).name {
+			None => {"Unknown".to_string()},
+			Some(ref n) => {n.to_string()}
+		};
 		
+		text.draw(&device_name,
+			font,
+			&c.draw_state,
+			c.trans(self.x-25.0, self.y-30.0).transform,
+			g); 
 		
 	
 	}
