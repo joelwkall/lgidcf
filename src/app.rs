@@ -78,7 +78,8 @@ impl App {
 				health:100.0,
 				index:i as i32,
 				name: "Noname".to_string(),
-				current_device:0
+				current_device:0,
+				switch_was_pressed:false
 			};
 			
 			players.push(player);
@@ -112,7 +113,7 @@ impl App {
 		
 		
 		for p in &self.players {
-			p.render(&c,g,font);
+			p.render(&c,g,&self.data,font);
 			
 			
 		}

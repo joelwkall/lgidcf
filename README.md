@@ -12,7 +12,7 @@ Design your own weapons, shoot and kill your family, friends and coworkers. Iden
 * [ ] More shapes of weapons (~~circle~~, ~~rectangle~~, triangle, line)
 * [X] Rotation of shape (will make hit detection with obstacles harder)
 * [X] More events for weapons (timed)
-* [ ] Multiple weapons
+* [X] Multiple weapons
 * [X] Life bars
 * [ ] Jetpack fuel bars
 * [ ] Scorekeeping

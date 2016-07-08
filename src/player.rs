@@ -29,7 +29,9 @@ pub struct Player {
 	pub jetpack: Rc<ProjectileTemplate>,
 	pub settings: Rc<PlayerSettings>,
 	
-	pub dir: [f64;2]
+	pub dir: [f64;2],
+	
+	pub switch_was_pressed: bool
 }
 
 impl Player {
@@ -53,7 +55,7 @@ impl Player {
 
 	}
 
-	pub fn render(&self, c:&Context, g: &mut G2d,font: &mut GlyphCache<Resources,Factory>) {
+	pub fn render(&self, c:&Context, g: &mut G2d,data: &AppData, font: &mut GlyphCache<Resources,Factory>) {
 
 		if self.health <= 0.0 {
 			return
@@ -73,12 +75,17 @@ impl Player {
 		};
 		
 		let mut text = Text::new(10);
-		text.color = [0.0, 0.0, 1.0, 1.0];
+		text.color = self.settings.color;
 		text.draw(&format!("{}", name),
-		  font,
-		  &c.draw_state,
-		  c.trans(20.0, (self.index as f64 + 1.0)*20.0).transform,
-		  g); 
+			font,
+			&c.draw_state,
+			c.trans(20.0, (self.index as f64 + 1.0)*20.0).transform,
+			g); 
+		  
+		text.color = [1.0, 1.0, 1.0, 1.0];
+		
+	
+		
 		
 	
 	}
@@ -127,12 +134,17 @@ impl Player {
 		}
 	
 		//TODO better weapon switching
-		if data.key_is_pressed(self.settings.key_switch_weapon) {
+		if data.key_is_pressed(self.settings.key_switch_weapon) && !self.switch_was_pressed {
 			self.current_device+=1;
 			
 			if self.current_device >= data.devices.len() as i32 {
 				self.current_device = 0;
 			}
+			
+			self.switch_was_pressed = true;
+		}
+		else if !data.key_is_pressed(self.settings.key_switch_weapon) {
+			self.switch_was_pressed = false;
 		}
 		
 		

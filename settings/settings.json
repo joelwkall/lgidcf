@@ -20,7 +20,7 @@
 			"key_down":"S",
 			"key_fire":"LCtrl",
 			"key_jetpack":"LShift",
-			"key_switch_weapon":"CapsLock"
+			"key_switch_weapon":"Tab"
 		}
 	]
 }
