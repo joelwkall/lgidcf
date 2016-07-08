@@ -3,6 +3,7 @@
 
 use rustc_serialize::json::decode;
 use std::fs::File;
+use std::fs;
 use std::io::Read;
 use std::rc::Rc;
 
@@ -31,15 +32,25 @@ impl App {
 
 	pub fn new(width:u32,height:u32) -> App {
 	
-		//device
-		let mut data = String::new();
-		let mut f = File::open("settings/device.json").unwrap();
-		f.read_to_string(&mut data).unwrap();
-		let d: Rc<Device> = decode(&data).unwrap();
+		
+	
+		//devices
+		let paths = fs::read_dir("settings/devices").unwrap();
+		let mut devices = Vec::new();
+		for path in paths {
+			let mut data = String::new();
+			let mut f = File::open(path.unwrap().path()).unwrap();
+			f.read_to_string(&mut data).unwrap();
+			let d: Device = decode(&data).unwrap();
+			devices.push(d);
+		}
+		
+		
+		let app_data = AppData::new(width,height,devices);
 		
 		//jetpack
-		data = String::new();
-		f = File::open("settings/jetpack.json").unwrap();
+		let mut data = String::new();
+		let mut f = File::open("settings/jetpack.json").unwrap();
 		f.read_to_string(&mut data).unwrap();
 		let j: Rc<ProjectileTemplate> = decode(&data).unwrap();
 		
@@ -62,12 +73,12 @@ impl App {
 				speed_y:0.0,
 				time_since_shot:0.0,
 				dir:[0.0,0.0],
-				device: d.clone(),
 				jetpack: j.clone(),
 				settings: p.clone(),
 				health:100.0,
 				index:i as i32,
-				name: "Noname".to_string()
+				name: "Noname".to_string(),
+				current_device:0
 			};
 			
 			players.push(player);
@@ -75,7 +86,7 @@ impl App {
 	
 		App {
 			players: players,
-			data: AppData::new(width,height)
+			data: app_data
 		}
 		
 		

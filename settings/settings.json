@@ -8,7 +8,8 @@
 			"key_up":"Up",
 			"key_down":"Down",
 			"key_fire":"RShift",
-			"key_jetpack":"Return"
+			"key_jetpack":"Return",
+			"key_switch_weapon":"Backspace"
 		},
 		{
 			"name":"Enemy",
@@ -17,8 +18,9 @@
 			"key_right":"D",
 			"key_up":"W",
 			"key_down":"S",
-			"key_fire":"LShift",
-			"key_jetpack":"LCtrl"
+			"key_fire":"LCtrl",
+			"key_jetpack":"LShift",
+			"key_switch_weapon":"CapsLock"
 		}
 	]
 }

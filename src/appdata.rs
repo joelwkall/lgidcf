@@ -1,12 +1,13 @@
-
 use std::collections::HashMap;
 
 use piston_window::*;
 
 use projectile::*;
+use device::*;
 
 pub struct AppData {
 	pub projectiles: Vec<Projectile>,
+	pub devices: Vec<Device>,
 	pub width: u32,
 	pub height: u32,
 	
@@ -20,15 +21,16 @@ pub struct AppData {
 
 impl AppData {
 
-	pub fn new(width:u32,height:u32) -> AppData { 
+	pub fn new(width:u32,height:u32,devices:Vec<Device>) -> AppData { 
 		AppData{
 			projectiles:Vec::new(),
+			devices:devices,
 			width:width,
 			height:height,
 			mouse_x:0,
 			mouse_y:0,
 			mouse_pressed:false,
-			buttons:HashMap::new()
+			buttons:HashMap::new(),
 		}
 	}
 	

@@ -25,7 +25,7 @@ pub struct Player {
 	
 	pub time_since_shot: f64,
 	
-	pub device: Rc<Device>,
+	pub current_device: i32,
 	pub jetpack: Rc<ProjectileTemplate>,
 	pub settings: Rc<PlayerSettings>,
 	
@@ -34,7 +34,7 @@ pub struct Player {
 
 impl Player {
 
-	fn throw_projectiles(&self) -> Vec<Projectile> {
+	fn throw_projectiles(&self,data: &AppData) -> Vec<Projectile> {
 	
 		
 		
@@ -43,7 +43,7 @@ impl Player {
 		let angle = (self.dir[1]).atan2(self.dir[0]);
 		let speed =(self.speed_x*self.speed_x + self.speed_y*self.speed_y).sqrt();
 		
-		for t in &self.device.projectiles {
+		for t in &self.get_current_device(data).projectiles {
 			for _ in 0..t.number {
 				ret.push(Projectile::new([self.x,self.y],angle,speed,t.clone(),self.index));
 			}
@@ -82,6 +82,14 @@ impl Player {
 		
 	
 	}
+	
+	fn get_current_device<'a>(&'a self, data: &'a AppData) -> &Device {
+	
+		let ref ret = data.devices[self.current_device as usize];
+		
+		ret
+	
+	}
 
 	pub fn update(&mut self, args: &UpdateArgs, data: &AppData) -> Option<Vec<Projectile>> {
 		
@@ -118,7 +126,14 @@ impl Player {
 			self.dir[1] = 0.0;
 		}
 	
-		
+		//TODO better weapon switching
+		if data.key_is_pressed(self.settings.key_switch_weapon) {
+			self.current_device+=1;
+			
+			if self.current_device >= data.devices.len() as i32 {
+				self.current_device = 0;
+			}
+		}
 		
 		
 		const PIXELS_PER_METER:f64 = 10.0;
@@ -167,9 +182,9 @@ impl Player {
 		
 		//shoot device
 		self.time_since_shot += args.dt;
-		if self.time_since_shot > self.device.cooldown && data.key_is_pressed(self.settings.key_fire) {
+		if self.time_since_shot > self.get_current_device(data).cooldown && data.key_is_pressed(self.settings.key_fire) {
 		
-			let projectiles = self.throw_projectiles();
+			let projectiles = self.throw_projectiles(data);
 			self.time_since_shot = 0.0;
 			
 			ret.extend(projectiles);

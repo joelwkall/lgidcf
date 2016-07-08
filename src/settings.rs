@@ -16,5 +16,6 @@ pub struct PlayerSettings {
 	pub key_left: Key,
 	pub key_right: Key,
 	pub key_fire: Key,
-	pub key_jetpack: Key
+	pub key_jetpack: Key,
+	pub key_switch_weapon: Key
 }

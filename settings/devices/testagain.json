@@ -1,0 +1,30 @@
+{
+	"name":"TestAgain",
+	"cooldown":0.1,
+	"projectiles":[
+		{
+			"number":1,
+			"shape":{
+				"width":5.0,
+				"height":5.0,
+				"shape_type":"Rectangle"
+			},
+			"spread":0.05,
+			"color":[0.0,1.0,1.0,1.0],
+			"inherit_speed":1.0,
+			"initial_speed":800.0,
+			"friction":0.7,
+			"damage":1.0,
+			"events":[
+				{
+					"event_type":"PlayerCollision",
+					"die":true
+				},
+				{
+					"event_type":"Stopped",
+					"die":true
+				}
+			]
+		}
+	]
+}
