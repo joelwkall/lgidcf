@@ -74,6 +74,7 @@ impl Player {
 			Some(ref n) => {n.to_string()}
 		};
 		
+		//display name
 		let mut text = Text::new(10);
 		text.color = self.settings.color;
 		text.draw(&format!("{}", name),
@@ -82,9 +83,11 @@ impl Player {
 			c.trans(20.0, (self.index as f64 + 1.0)*20.0).transform,
 			g); 
 		  
+		  
+		//display current weapon
+		//TODO: only show it for a few seconds after switch
 		text.color = [1.0, 1.0, 1.0, 1.0];
-		
-	
+
 		let device_name = match self.get_current_device(data).name {
 			None => {"Unknown".to_string()},
 			Some(ref n) => {n.to_string()}
