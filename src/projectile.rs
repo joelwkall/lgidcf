@@ -60,18 +60,20 @@ impl Projectile {
 	
 		let transform = c.transform.trans(self.x,self.y).rot_rad(self.direction);
 		
+		let rect = rectangle::centered([0.0,0.0,self.template.shape.width/2.0,self.template.shape.height/2.0]);
+		
 		//TODO: create the shape once, and draw multiple times
 		match self.template.shape.shape_type {
 			ShapeTypes::Rectangle => { 
 			
 				Rectangle::new(self.template.color)
-					.draw(rectangle::centered([0.0,0.0,self.template.shape.width/2.0,self.template.shape.height/2.0]), &Default::default(), transform, g);
+					.draw(rect, &Default::default(), transform, g);
 			},
 			ShapeTypes::Ellipse => { 
 			
 				Ellipse::new(self.template.color)
 					.resolution(10)
-					.draw(rectangle::centered([0.0,0.0,self.template.shape.width/2.0,self.template.shape.height/2.0]), &Default::default(), transform, g);
+					.draw(rect, &Default::default(), transform, g);
 			}
 		}
 	
