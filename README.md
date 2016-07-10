@@ -9,7 +9,7 @@ Design your own weapons, shoot and kill your family, friends and coworkers. Iden
 
 ##TODO
 
-* [ ] More shapes of weapons (~~circle~~, ~~rectangle~~, triangle, line)
+* [ ] More shapes of weapons (~~circle~~, ~~rectangle~~, triangle)
 * [X] Rotation of shape (will make hit detection with obstacles harder)
 * [X] More events for weapons (timed)
 * [X] Multiple weapons
