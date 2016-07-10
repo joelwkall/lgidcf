@@ -278,7 +278,9 @@ impl Projectile {
 		const PIXELS_PER_METER:f64 = 10.0;
 		
 		//add gravity
-		let gravity = 9.81*args.dt*PIXELS_PER_METER;
+		let gravity = 9.81*args.dt*PIXELS_PER_METER*ret.template.gravity.unwrap_or(1.0);
+		
+		
 		let dx = ret.speed*ret.direction.cos(); //calculate speed in x direction
 		let dy = ret.speed*ret.direction.sin() + gravity; //calculate y speed and add gravity
 		ret.direction = (dy).atan2(dx); //set new direction based on dx and dy

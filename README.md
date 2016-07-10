@@ -31,7 +31,7 @@ Design your own weapons, shoot and kill your family, friends and coworkers. Iden
 * [X] Speed additive or multiplicative (for different types of projectiles)
 * [ ] Recoil and impact force
 * [ ] Tests
-* [ ] Gravity property
+* [X] Gravity property
 
 ##Design decisions
 

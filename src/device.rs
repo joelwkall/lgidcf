@@ -14,6 +14,7 @@ pub struct ProjectileTemplate {
 	pub initial_speed:Option<f64>,
 	pub inherit_speed:Option<f64>,
 	pub acceleration:Option<f64>,
+	pub gravity:Option<f64>,
 	pub spread:Option<f64>,
 	pub friction:Option<f64>,
 	pub events: Vec<ProjectileEvent>,
