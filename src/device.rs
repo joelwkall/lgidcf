@@ -26,6 +26,8 @@ pub struct ProjectileTemplate {
 pub struct ProjectileEvent {
 	pub event_type: ProjectileEventTypes,
 	pub time: Option<f64>,
+	pub start_at: Option<f64>,
+	pub end_at: Option<f64>,
 	pub repeat: Option<bool>,
 	pub spawn_projectiles: Option<Vec<Rc<ProjectileTemplate>>>,
 	pub die:Option<bool>

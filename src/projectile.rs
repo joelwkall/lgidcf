@@ -214,7 +214,6 @@ impl Projectile {
 	{
 		let mut vec = Vec::new();
 		
-		//TODO: add support for start and stop time for repeating timers (for rockets etc)
 		//TODO: add support for multiple triggers for the same action
 		for e in &self.template.events {
 			
@@ -231,11 +230,25 @@ impl Projectile {
 							}
 						},
 						true => {
-							let cycles = (self.age/time).floor();
-							let last = cycles*time;
+						
+							let has_started = match e.start_at {
+								None => true,
+								Some(t) => t < self.age
+							};
 							
-							if self.age >= last && self.age-args.dt < last {
-								vec.push(e);
+							let has_ended = match e.end_at {
+								None => false,
+								Some(t) => t < self.age
+							};
+							
+							if has_started && !has_ended {
+						
+								let cycles = (self.age/time).floor();
+								let last = cycles*time;
+								
+								if self.age >= last && self.age-args.dt < last {
+									vec.push(e);
+								}
 							}
 						}
 					}
