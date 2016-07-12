@@ -215,6 +215,7 @@ impl Projectile {
 		let mut vec = Vec::new();
 		
 		//TODO: add support for start and stop time for repeating timers (for rockets etc)
+		//TODO: add support for multiple triggers for the same action
 		for e in &self.template.events {
 			
 
@@ -290,7 +291,7 @@ impl Projectile {
 		
 		//add acceleration
 		//TODO: acceleration should not affect speed gained by gravity?
-		ret.speed += ret.template.acceleration.unwrap_or(0.0)*args.dt;
+		ret.speed += ret.template.acceleration.unwrap_or(0.0)*args.dt*PIXELS_PER_METER;
 		
 		//calculate new position
 		ret.x = ret.x + ret.speed*ret.direction.cos()*args.dt;
