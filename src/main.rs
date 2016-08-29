@@ -31,8 +31,7 @@ fn main() {
 			"lgidcf",
 			SIZE
 		)
-		.opengl(OpenGL::V2_1)
-		.srgb(false)
+		.opengl(OpenGL::V3_0)
 		.vsync(true)
 		//.fullscreen(true)
 		.exit_on_esc(true)
