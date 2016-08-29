@@ -22,8 +22,8 @@ Design your own weapons, shoot and kill your family, friends and coworkers. Iden
 * [ ] Weapon builder
 * [ ] Performance tuning (Very Sleepy? use glium or gfx directly instead of piston?)
 * [ ] Menus and stuff
-* [ ] Background image
-* [ ] Obstacles
+* [ ] Background image (parallax scrolling?)
+* [ ] Obstacles (destructible?)
 * [X] Player names
 * [ ] Modify property on event (using set, add or multiply)
 * [ ] Gradient colors (and alpha)
@@ -32,10 +32,11 @@ Design your own weapons, shoot and kill your family, friends and coworkers. Iden
 * [ ] Recoil and impact force
 * [ ] Tests
 * [X] Gravity property
+* [ ] Music!
 
 ##Design decisions
 
-- Jetpack as a device instead?
+- Jetpack as a device instead? (requires recoil)
 - Large map with zoom in on players?
 - Size of player relative to health?
 - Images as players/projectiles/obstacles or keep it simple?

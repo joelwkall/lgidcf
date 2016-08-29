@@ -1,6 +1,6 @@
 [package]
 name = "La Guerra Impresionante de Condenación Final"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Joel W Kall"]
 
 [[bin]]
@@ -9,8 +9,10 @@ name = "lgidcf"
 [dependencies]
 piston = "*"
 piston2d-graphics = "*"
+piston2d-opengl_graphics = "*"
 piston_window = "*"
+rand = "*"
+
 piston2d-gfx_graphics = "*"
 gfx_device_gl = "*"
-rand = "*"
 rustc-serialize = "0.3.19"

@@ -24,13 +24,15 @@ use app::*;
 
 
 fn main() {
-	const SIZE: [u32; 2] = [1280,1024];
+	const SIZE: [u32; 2] = [1366,768];
 
 	// Create an Glutin window.
 	let mut window: PistonWindow = WindowSettings::new(
 			"lgidcf",
 			SIZE
 		)
+		.opengl(OpenGL::V2_1)
+		.srgb(false)
 		.vsync(true)
 		.fullscreen(true)
 		.exit_on_esc(true)
