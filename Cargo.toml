@@ -2,6 +2,7 @@
 name = "La Guerra Impresionante de Condenación Final"
 version = "0.1.1"
 authors = ["Joel W Kall"]
+build = "build.rs"
 
 [[bin]]
 name = "lgidcf"

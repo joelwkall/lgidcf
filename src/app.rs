@@ -35,7 +35,7 @@ impl App {
 		
 	
 		//devices
-		let paths = fs::read_dir("settings/devices").unwrap();
+		let paths = fs::read_dir("devices").unwrap();
 		let mut devices = Vec::new();
 		for path in paths {
 			let mut data = String::new();
