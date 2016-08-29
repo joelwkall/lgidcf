@@ -24,7 +24,7 @@ use app::*;
 
 
 fn main() {
-	const SIZE: [u32; 2] = [1366,768];
+	const SIZE: [u32; 2] = [800,600];
 
 	// Create an Glutin window.
 	let mut window: PistonWindow = WindowSettings::new(
@@ -34,7 +34,7 @@ fn main() {
 		.opengl(OpenGL::V2_1)
 		.srgb(false)
 		.vsync(true)
-		.fullscreen(true)
+		//.fullscreen(true)
 		.exit_on_esc(true)
 		.build()
 		.unwrap();
@@ -66,7 +66,7 @@ fn main() {
 				//print debug info
 				let num_objs = app.num_objects();
 				
-				let mut text = Text::new(10);
+				let mut text = Text::new(20);
 				text.color = [0.0, 0.0, 1.0, 1.0];
 				text.draw(&format!("FPS: {}, Objects: {}", fps.round() as i32,num_objs),
 				  &mut font,
