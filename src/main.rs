@@ -65,7 +65,7 @@ fn main() {
 				//print debug info
 				let num_objs = app.num_objects();
 				
-				let mut text = Text::new(20);
+				let mut text = Text::new(10);
 				text.color = [0.0, 0.0, 1.0, 1.0];
 				text.draw(&format!("FPS: {}, Objects: {}", fps.round() as i32,num_objs),
 				  &mut font,

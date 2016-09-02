@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">default</Platform>
+    <ProjectGuid>ce094020-3b9f-49b6-8890-d941c8ea739a</ProjectGuid>
+    <OutputType>exe</OutputType>
+    <CrateName>lgidcf</CrateName>
+    <Name>lgidcf</Name>
+    <RootNamespace>lgidcf</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|default' ">
+    <LinkTimeOptimization>false</LinkTimeOptimization>
+    <DebugSymbols>true</DebugSymbols>
+    <OptimizationLevel>0</OptimizationLevel>
+    <PlatformTarget>default</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|default' ">
+    <LinkTimeOptimization>false</LinkTimeOptimization>
+    <DebugSymbols>false</DebugSymbols>
+    <OptimizationLevel>2</OptimizationLevel>
+    <PlatformTarget>default</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="src\" />
+    <Folder Include="devices\" />
+    <Folder Include="settings\" />
+    <Folder Include="resources\" />
+    <Code Include="src\main.rs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="devices\minigun.json" />
+    <Content Include="devices\rocket.json" />
+    <Content Include="devices\testweapon.json" />
+    <Content Include="resources\FiraMono-Bold.ttf" />
+    <Content Include="settings\jetpack.json" />
+    <Content Include="settings\settings.json" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\VisualRust\VisualRust.Rust.targets" />
+</Project>
