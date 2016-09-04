@@ -24,6 +24,9 @@ use app::*;
 
 
 fn main() {
+
+	let print_debug = true;
+
 	const SIZE: [u32; 2] = [800,600];
 
 	// Create an Glutin window.
@@ -38,6 +41,9 @@ fn main() {
 		.build()
 		.unwrap();
 		
+	if print_debug {
+		println!("Created window.");
+    }
 	
 	//create a font
 	let exe_directory = current_exe().unwrap().parent().unwrap().to_owned();
@@ -45,6 +51,9 @@ fn main() {
 	
 	let mut font:GlyphCache<Resources,Factory> = GlyphCache::new(path,window.factory.clone()).unwrap();
 
+	if print_debug {
+		println!("Instantiated fonts.");
+    }
 	
 	// Create a new game and run it.
 	let mut app = App::new(SIZE[0],SIZE[1]);
@@ -53,13 +62,36 @@ fn main() {
 	let mut passed = 0.0;
 	
 	let mut fps:f64 = 0.0;
-	
+
+	if print_debug {
+		println!("Created app.");
+    }
+
 	
 	while let Some(e) = window.next() {
 			
+		if print_debug {
+			println!("Aquired window event.");
+		}
+
 		if let Some(_) = e.render_args() {
+
+			if print_debug {
+				println!("Beginning render event handling.");
+			}
+
 			window.draw_2d(&e,|c, g| {
+
+				if print_debug {
+					println!("Beginning draw closure.");
+				}
+
 				app.render(&c,g,&mut font);
+
+				if print_debug {
+					println!("Finished app drawing.");
+				}
+
 				frames+=1;
 				
 				//print debug info
@@ -72,13 +104,29 @@ fn main() {
 				  &c.draw_state,
 				  c.trans((SIZE[0] as f64)-250.0, 20.0).transform,
 				  g); 
+
+				if print_debug {
+					println!("Finished draw closure.");
+				}
 			});
+
+			if print_debug {
+				println!("Finished render event handling.");
+			}
+
 		}
 
 		if let Some(u) = e.update_args() {
 		
+			if print_debug {
+				println!("Beginning update event handling.");
+			}
 		
 			app.update(&u);
+
+			if print_debug {
+				println!("Finished app update event handling.");
+			}
 			
 			passed += u.dt;
 			
@@ -90,22 +138,43 @@ fn main() {
 				passed = 0.0;
 			
 			}
+
+			if print_debug {
+				println!("Finished update event handling.");
+			}
 		}
 		
 		if let Some(b) = e.press_args() {
+
+			if print_debug {
+				println!("Button pressed.");
+			}
+
 			app.handle_button_pressed(b);
 		}
 		
 		if let Some(b) = e.release_args() {
+
+			if print_debug {
+				println!("Button released.");
+			}
+
 			app.handle_button_released(b);
 		}
 		
 		if let Some(m) = e.mouse_cursor_args() {
+
+			if print_debug {
+				println!("Mouse moved.");
+			}
+
 			app.handle_mouse_move(m);
 		}
 		
 		
-		
+		if print_debug {
+			println!("Finished window event. Frames={}",frames);
+		}
 		
 		
 	}

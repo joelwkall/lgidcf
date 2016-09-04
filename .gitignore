@@ -1,3 +1,5 @@
 target
 /.vs/lgidcf/v14/.suo
 /lgidcf.rsproj.user
+/obj/default/Debug/lgidcf.rsprojResolveAssemblyReference.cache
+/obj/default/Debug/lgidcf.rsproj.FileListAbsolute.txt
