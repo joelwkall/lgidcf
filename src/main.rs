@@ -25,8 +25,6 @@ use app::*;
 
 fn main() {
 
-	let print_debug = true;
-
 	const SIZE: [u32; 2] = [800,600];
 
 	// Create an Glutin window.
@@ -41,7 +39,7 @@ fn main() {
 		.build()
 		.unwrap();
 		
-	if print_debug {
+	if cfg!(debug_assertions) {
 		println!("Created window.");
     }
 	
@@ -51,7 +49,7 @@ fn main() {
 	
 	let mut font:GlyphCache<Resources,Factory> = GlyphCache::new(path,window.factory.clone()).unwrap();
 
-	if print_debug {
+	if cfg!(debug_assertions) {
 		println!("Instantiated fonts.");
     }
 	
@@ -63,32 +61,32 @@ fn main() {
 	
 	let mut fps:f64 = 0.0;
 
-	if print_debug {
+	if cfg!(debug_assertions) {
 		println!("Created app.");
     }
 
 	
 	while let Some(e) = window.next() {
 			
-		if print_debug {
+		if cfg!(debug_assertions) {
 			println!("Aquired window event.");
 		}
 
 		if let Some(_) = e.render_args() {
 
-			if print_debug {
+			if cfg!(debug_assertions) {
 				println!("Beginning render event handling.");
 			}
 
 			window.draw_2d(&e,|c, g| {
 
-				if print_debug {
+				if cfg!(debug_assertions) {
 					println!("Beginning draw closure.");
 				}
 
 				app.render(&c,g,&mut font);
 
-				if print_debug {
+				if cfg!(debug_assertions) {
 					println!("Finished app drawing.");
 				}
 
@@ -105,12 +103,12 @@ fn main() {
 				  c.trans((SIZE[0] as f64)-250.0, 20.0).transform,
 				  g); 
 
-				if print_debug {
+				if cfg!(debug_assertions) {
 					println!("Finished draw closure.");
 				}
 			});
 
-			if print_debug {
+			if cfg!(debug_assertions) {
 				println!("Finished render event handling.");
 			}
 
@@ -118,13 +116,13 @@ fn main() {
 
 		if let Some(u) = e.update_args() {
 		
-			if print_debug {
+			if cfg!(debug_assertions) {
 				println!("Beginning update event handling.");
 			}
 		
 			app.update(&u);
 
-			if print_debug {
+			if cfg!(debug_assertions) {
 				println!("Finished app update event handling.");
 			}
 			
@@ -139,14 +137,14 @@ fn main() {
 			
 			}
 
-			if print_debug {
+			if cfg!(debug_assertions) {
 				println!("Finished update event handling.");
 			}
 		}
 		
 		if let Some(b) = e.press_args() {
 
-			if print_debug {
+			if cfg!(debug_assertions) {
 				println!("Button pressed.");
 			}
 
@@ -155,7 +153,7 @@ fn main() {
 		
 		if let Some(b) = e.release_args() {
 
-			if print_debug {
+			if cfg!(debug_assertions) {
 				println!("Button released.");
 			}
 
@@ -164,7 +162,7 @@ fn main() {
 		
 		if let Some(m) = e.mouse_cursor_args() {
 
-			if print_debug {
+			if cfg!(debug_assertions) {
 				println!("Mouse moved.");
 			}
 
@@ -172,7 +170,7 @@ fn main() {
 		}
 		
 		
-		if print_debug {
+		if cfg!(debug_assertions) {
 			println!("Finished window event. Frames={}",frames);
 		}
 		
