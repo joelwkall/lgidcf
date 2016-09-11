@@ -32,7 +32,7 @@ pub struct Projectile {
 impl Projectile {
 	
 
-
+    //TODO: make it work with speedX, speedY again, much easier
 	pub fn new(pos:[f64;2],angle:f64,speed:f64,template:Rc<ProjectileTemplate>,owner:i32) -> Projectile {
 
 		//add spread
@@ -57,29 +57,9 @@ impl Projectile {
 	}
 
 	pub fn render(&self, c:&Context, g: &mut G2d) {
-	
-		let transform = c.transform.trans(self.x,self.y).rot_rad(self.direction);
-		
-		let rect = rectangle::centered([0.0,0.0,self.template.shape.width/2.0,self.template.shape.height/2.0]);
-		
-		//TODO: create the shape once, and draw multiple times
-		match self.template.shape.shape_type {
-			ShapeTypes::Rectangle => { 
-			
-				Rectangle::new(self.template.color)
-					.draw(rect, &Default::default(), transform, g);
-			},
-			ShapeTypes::Ellipse => { 
-			
-				Ellipse::new(self.template.color)
-					.resolution(10)
-					.draw(rect, &Default::default(), transform, g);
-			}
-		}
-	
-		
-		
 
+        self.template.shape.render(&c,g,self.x,self.y,self.direction);
+	
 	}
 	
 	fn check_border_collision(&self, ret: &mut Projectile, data: &AppData) -> Vec<&ProjectileEvent>
@@ -163,10 +143,10 @@ impl Projectile {
 			if 
 				p.health > 0.0 && //ignore dead players
 				self.owner_index != p.index &&					//only match non-owner players
-				self.x - self.template.shape.width/2.0 < p.x+25.0 &&
-				self.x + self.template.shape.width/2.0 > p.x-25.0 &&
-				self.y - self.template.shape.height/2.0 < p.y+25.0 &&
-				self.y + self.template.shape.height/2.0 > p.y-25.0
+				self.x - self.template.shape.width/2.0 < p.x+p.health/2.0 &&
+				self.x + self.template.shape.width/2.0 > p.x-p.health/2.0 &&
+				self.y - self.template.shape.height/2.0 < p.y+p.health/2.0 &&
+				self.y + self.template.shape.height/2.0 > p.y-p.health/2.0
 
 			{
 				trigger_collision=true;

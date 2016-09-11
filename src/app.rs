@@ -79,7 +79,13 @@ impl App {
 				index:i as i32,
 				name: "Noname".to_string(),
 				current_device:0,
-				switch_was_pressed:false
+				switch_was_pressed:false,
+                shape: Shape {
+                    shape_type: ShapeTypes::Ellipse,
+                    width:100.0,
+                    height:100.0,
+                    color:p.clone().color
+                }
 			};
 			
 			players.push(player);

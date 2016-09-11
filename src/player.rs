@@ -22,6 +22,7 @@ pub struct Player {
 	pub speed_y: f64,
 	
 	pub health: f64,
+    pub shape: Shape,
 	
 	pub time_since_shot: f64,
 	
@@ -57,24 +58,27 @@ impl Player {
 
 	pub fn render(&self, c:&Context, g: &mut G2d,data: &AppData, font: &mut GlyphCache<Resources,Factory>) {
 
+
+        //dont draw dead players
 		if self.health <= 0.0 {
 			return
 		}
+
+        //draw shape
+        let angle = (self.dir[1]).atan2(self.dir[0]); //TODO: dont calculate this every frame
+        self.shape.render(&c,g,self.x,self.y,angle);
 	
-		let square = rectangle::square(0.0, 0.0, 50.0);
-		let transform = c.transform.trans(self.x-25.0,self.y-25.0);
-		rectangle(self.settings.color, square, transform, g);
-		
+		//draw life bar
 		let life_bar = rectangle::square(0.0,0.0,100.0); //1px square
 		let transform = c.transform.trans(20.0,(self.index as f64 +1.0)*20.0).scale(self.health/100.0,0.1);
 		rectangle(self.settings.color, life_bar, transform, g);
 		
+        //display name
 		let name = match self.settings.name {
 			None => {"Noname".to_string()},
 			Some(ref n) => {n.to_string()}
 		};
 		
-		//display name
 		let mut text = Text::new(10);
 		text.color = self.settings.color;
 		text.draw(&format!("{}", name),
@@ -82,7 +86,6 @@ impl Player {
 			&c.draw_state,
 			c.trans(20.0, (self.index as f64 + 1.0)*20.0).transform,
 			g); 
-		  
 		  
 		//display current weapon
 		//TODO: only show it for a few seconds after switch
@@ -96,10 +99,9 @@ impl Player {
 		text.draw(&device_name,
 			font,
 			&c.draw_state,
-			c.trans(self.x-25.0, self.y-30.0).transform,
+			c.trans(self.x-25.0, self.y-5.0).transform,
 			g); 
 		
-	
 	}
 	
 	fn get_current_device<'a>(&'a self, data: &'a AppData) -> &Device {
@@ -179,25 +181,25 @@ impl Player {
 			
 		
 		//floor
-		if self.y+25.0 > (data.height as f64) {
+		if self.y+self.health/2.0 > (data.height as f64) {
 			self.speed_y = 0.0;
-			self.y = (data.height as f64) - 25.0;
+			self.y = (data.height as f64) - self.health/2.0;
 		}
 
 		//ceiling
-		if self.y-25.0 < 0.0 {
+		if self.y-self.health/2.0 < 0.0 {
 			self.speed_y = 0.0;
-			self.y = 25.0;
+			self.y = self.health/2.0;
 		}
 		
-		if self.x+25.0 > (data.width as f64) {
+		if self.x+self.health/2.0 > (data.width as f64) {
 			self.speed_x = 0.0;
-			self.x = (data.width as f64) - 25.0;
+			self.x = (data.width as f64) - self.health/2.0;
 		}
 		
-		if self.x-25.0 < 0.0 {
+		if self.x-self.health/2.0 < 0.0 {
 			self.speed_x = 0.0;
-			self.x = 25.0;
+			self.x = self.health/2.0;
 		}
 		
 		//add gravity
@@ -222,13 +224,19 @@ impl Player {
 				Some(d) => {
 					if 
 						self.index != p.owner_index &&					//only take damage from other players projectiles
-						p.x - p.template.shape.width/2.0 < self.x+25.0 &&
-						p.x + p.template.shape.width/2.0 > self.x-25.0 &&
-						p.y - p.template.shape.height/2.0 < self.y+25.0 &&
-						p.y + p.template.shape.height/2.0 > self.y-25.0
+						p.x - p.template.shape.width/2.0 < self.x+self.health/2.0 && //TODO remove duplicated collision detection in projectile class. or here. wherever
+						p.x + p.template.shape.width/2.0 > self.x-self.health/2.0 &&
+						p.y - p.template.shape.height/2.0 < self.y+self.health/2.0 &&
+						p.y + p.template.shape.height/2.0 > self.y-self.health/2.0
 
 					{
 						self.health -= d;
+                        self.shape = Shape {
+                            width:self.health,
+                            height:self.health,
+                            color:self.shape.color.clone(),
+                            shape_type:ShapeTypes::Ellipse
+                        }
 					}
 				},
 				None => {}

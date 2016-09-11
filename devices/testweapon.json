@@ -7,10 +7,10 @@
 			"shape":{
 				"width":15.0,
 				"height":10.0,
-				"shape_type":"Rectangle"
+				"shape_type":"Rectangle",
+			  "color":[0.0,0.0,0.0,1.0]
 			},
 			"spread":0.05,
-			"color":[0.0,0.0,0.0,1.0],
 			"inherit_speed":1.0,
 			"initial_speed":300.0,
 			"friction":0.7,
@@ -25,9 +25,9 @@
 							"shape":{
 								"width":10.0,
 								"height":10.0,
-								"shape_type":"Ellipse"
+								"shape_type":"Ellipse",
+							  "color":[1.0,1.0,1.0,0.5]
 							},
-							"color":[1.0,1.0,1.0,0.5],
 							"inherit_speed":0.0,
 							"initial_speed":50.0,
 							"friction":0.1,
@@ -51,9 +51,9 @@
 							"shape":{
 								"width":5.0,
 								"height":3.0,
-								"shape_type":"Ellipse"
+								"shape_type":"Ellipse",
+							  "color":[0.5,0.0,0.0,1.0]
 							},
-							"color":[0.5,0.0,0.0,1.0],
 							"inherit_speed":0.0,
 							"initial_speed":150.0,
 							"friction":0.1,
@@ -78,9 +78,9 @@
 							"shape":{
 								"width":3.0,
 								"height":1.0,
-								"shape_type":"Rectangle"
+								"shape_type":"Rectangle",
+							  "color":[1.0,0.5,0.5,0.8]
 							},
-							"color":[1.0,0.5,0.5,0.8],
 							"initial_speed":30.0,
 							"friction":0.1,
 							"gravity":-1.0,

@@ -1,5 +1,7 @@
 use std::rc::Rc;
 
+use piston_window::*;
+
 #[derive(RustcDecodable)]
 pub struct Device {
 	pub name: Option<String>,
@@ -10,7 +12,6 @@ pub struct Device {
 #[derive(RustcDecodable)]
 pub struct ProjectileTemplate {
 	pub number:i32,
-	pub color:[f32;4],
 	pub initial_speed:Option<f64>,
 	pub inherit_speed:Option<f64>,
 	pub acceleration:Option<f64>,
@@ -46,8 +47,44 @@ pub enum ProjectileEventTypes {
 pub struct Shape {
 	pub width: f64,
 	pub height:f64,
+    pub color:[f32;4],
 	pub shape_type: ShapeTypes
 }
+
+impl Shape {
+
+    pub fn render(&self, c:&Context, g: &mut G2d, x: f64, y: f64, dir: f64) {
+	
+		let transform = c.transform.trans(x,y).rot_rad(dir);
+		
+		let rect = rectangle::centered([0.0,0.0,self.width/2.0,self.height/2.0]);
+		
+        
+
+		//TODO: create the shape once, and draw multiple times
+		match self.shape_type {
+			ShapeTypes::Rectangle => { 
+			
+				Rectangle::new(self.color)
+					.draw(rect, &Default::default(), transform, g);
+			},
+			ShapeTypes::Ellipse => { 
+			
+                let resolution = 2.0*self.width.max(self.height).sqrt();
+
+				Ellipse::new(self.color)
+					.resolution(resolution as u32)
+					.draw(rect, &Default::default(), transform, g);
+			}
+		}
+	
+	}
+
+    //TODO: move collision detection here
+
+}
+
+
 
 #[derive(RustcDecodable)]
 pub enum ShapeTypes {

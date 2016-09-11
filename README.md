@@ -33,10 +33,10 @@ Design your own weapons, shoot and kill your family, friends and coworkers. Iden
 * [ ] Tests
 * [X] Gravity property
 * [ ] Music!
+* [X] Size of player relative to health?
 
 ##Design decisions
 
 - Jetpack as a device instead? (requires recoil)
 - Large map with zoom in on players?
-- Size of player relative to health?
 - Images as players/projectiles/obstacles or keep it simple?

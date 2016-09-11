@@ -7,10 +7,10 @@
 			"shape":{
 				"width":16.0,
 				"height":7.0,
-				"shape_type":"Rectangle"
+				"shape_type":"Rectangle",
+			  "color":[1.0,1.0,1.0,1.0]
 			},
-			"spread":0.01,
-			"color":[1.0,1.0,1.0,1.0],
+			"spread":0.0,
 			"inherit_speed":0.0,
 			"initial_speed":100.0,
 			"acceleration":100.0,
@@ -25,9 +25,9 @@
 							"shape":{
 								"width":15.0,
 								"height":15.0,
-								"shape_type":"Ellipse"
+								"shape_type":"Ellipse",
+							  "color":[1.0,1.0,0.0,0.8]
 							},
-							"color":[1.0,1.0,0.0,0.8],
 							"inherit_speed":0.0,
 							"initial_speed":75.0,
 							"acceleration":-5.0,
@@ -51,9 +51,9 @@
 							"shape":{
 								"width":10.0,
 								"height":10.0,
-								"shape_type":"Ellipse"
+								"shape_type":"Ellipse",
+							  "color":[1.0,0.5,0.0,0.8]
 							},
-							"color":[1.0,0.5,0.0,0.8],
 							"inherit_speed":0.0,
 							"initial_speed":50.0,
 							"acceleration":-3.0,
@@ -87,9 +87,9 @@
 							"shape":{
 								"width":2.0,
 								"height":2.0,
-								"shape_type":"Rectangle"
+								"shape_type":"Rectangle",
+							  "color":[1.0,1.0,0.0,0.8]
 							},
-							"color":[1.0,1.0,0.0,0.8],
 							"initial_speed":30.0,
 							"gravity":-0.2,
 							"events":[
