@@ -33,7 +33,7 @@ Design your own weapons, shoot and kill your family, friends and coworkers. Iden
 * [ ] Tests
 * [X] Gravity property
 * [ ] Music!
-* [X] Size of player relative to health?
+* [X] Size of player relative to health
 
 ##Design decisions
 
