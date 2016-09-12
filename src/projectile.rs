@@ -56,9 +56,9 @@ impl Projectile {
 		ret
 	}
 
-	pub fn render(&self, c:&Context, g: &mut G2d) {
+	pub fn render(&self, c:&Context, g: &mut G2d,data:&AppData) {
 
-        self.template.shape.render(&c,g,self.x,self.y,self.direction);
+        self.template.shape.render(&c,g,self.x,self.y,self.direction,&data);
 	
 	}
 	

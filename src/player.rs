@@ -66,41 +66,33 @@ impl Player {
 
         //draw shape
         let angle = (self.dir[1]).atan2(self.dir[0]); //TODO: dont calculate this every frame
-        self.shape.render(&c,g,self.x,self.y,angle);
+        self.shape.render(&c,g,self.x,self.y,angle,&data);
 	
 		//draw life bar
 		let life_bar = rectangle::square(0.0,0.0,100.0); //1px square
 		let transform = c.transform.trans(20.0,(self.index as f64 +1.0)*20.0).scale(self.health/100.0,0.1);
 		rectangle(self.settings.color, life_bar, transform, g);
 		
-        //display name
+        //display name and weapon
 		let name = match self.settings.name {
 			None => {"Noname".to_string()},
+			Some(ref n) => {n.to_string()}
+		};
+
+        let device_name = match self.get_current_device(data).name {
+			None => {"Unknown".to_string()},
 			Some(ref n) => {n.to_string()}
 		};
 		
 		let mut text = Text::new(10);
 		text.color = self.settings.color;
-		text.draw(&format!("{}", name),
+		text.draw(&format!("{} - {}", name,device_name),
 			font,
 			&c.draw_state,
-			c.trans(20.0, (self.index as f64 + 1.0)*20.0).transform,
+			c.trans(20.0, (self.index as f64 + 1.0)*20.0-1.0).transform,
 			g); 
 		  
-		//display current weapon
-		//TODO: only show it for a few seconds after switch
-		text.color = [1.0, 1.0, 1.0, 1.0];
-
-		let device_name = match self.get_current_device(data).name {
-			None => {"Unknown".to_string()},
-			Some(ref n) => {n.to_string()}
-		};
-		
-		text.draw(&device_name,
-			font,
-			&c.draw_state,
-			c.trans(self.x-25.0, self.y-5.0).transform,
-			g); 
+	
 		
 	}
 	

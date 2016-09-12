@@ -113,18 +113,25 @@ impl App {
 		clear(GREEN, g);
 		
 		for d in &self.data.projectiles {
-			d.render(&c,g);
+			d.render(&c,g,&self.data);
 		}
 		
 		
 		
 		for p in &self.players {
 			p.render(&c,g,&self.data,font);
-			
-			
+		
 		}
 		
-		
+		//ground
+        let ground = Shape {
+            color:[0.0,0.0,0.0,1.0],
+            width:800.0,
+            height:10.0,
+            shape_type:ShapeTypes::Rectangle
+        };
+
+        ground.render(&c,g,400.0,595.0,0.0,&self.data);
 		
 	
 	}
@@ -134,6 +141,11 @@ impl App {
 	
 		let mut new_projectiles:Vec<Projectile> = Vec::new();
 		
+        let mut leftmost_player_x = 800.0;
+        let mut rightmost_player_x = 0.0;
+        let mut top_player_y = 600.0;
+        let mut bottom_player_y = 0.0;
+
 		for p in &mut self.players {
 			match p.update(&args,&mut self.data) {
 				Some(v) => {
@@ -143,6 +155,19 @@ impl App {
 				},
 				None => {}
 			}
+
+            if p.x < leftmost_player_x {
+                leftmost_player_x = p.x;
+            }
+            if p.x > rightmost_player_x {
+                rightmost_player_x = p.x;
+            }
+            if p.y < top_player_y {
+                top_player_y = p.y;
+            }
+            if p.y > bottom_player_y {
+                bottom_player_y = p.y;
+            }
 		}
 		
 		for d in &self.data.projectiles {
@@ -153,11 +178,15 @@ impl App {
 			
 		}
 
-	
-		
-		
 		//self.data.objects = newObjects;
 		self.data.projectiles = new_projectiles;
+
+        //pythagorean distance
+        let max_distance = ((rightmost_player_x - leftmost_player_x).powi(2)+(bottom_player_y - top_player_y).powi(2)).sqrt();
+
+        self.data.zoom = (max_distance-400.0).abs()/400.0;
+
+
 	}
 	
 	pub fn handle_button_pressed(&mut self, button: Button) {

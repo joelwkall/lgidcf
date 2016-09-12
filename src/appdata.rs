@@ -14,6 +14,9 @@ pub struct AppData {
 	pub mouse_x:u32,
 	pub mouse_y:u32,
 	pub mouse_pressed: bool,
+
+    pub camera_pos: [f64;2],
+    pub zoom: f64,
 	
 	buttons: HashMap<Key,bool>
 	
@@ -31,6 +34,8 @@ impl AppData {
 			mouse_y:0,
 			mouse_pressed:false,
 			buttons:HashMap::new(),
+            camera_pos:[0.0,0.0],
+            zoom:1.0
 		}
 	}
 	

@@ -2,6 +2,8 @@ use std::rc::Rc;
 
 use piston_window::*;
 
+use appdata::*;
+
 #[derive(RustcDecodable)]
 pub struct Device {
 	pub name: Option<String>,
@@ -53,14 +55,12 @@ pub struct Shape {
 
 impl Shape {
 
-    pub fn render(&self, c:&Context, g: &mut G2d, x: f64, y: f64, dir: f64) {
+    pub fn render(&self, c:&Context, g: &mut G2d, x: f64, y: f64, dir: f64, data:&AppData) {
 	
-		let transform = c.transform.trans(x,y).rot_rad(dir);
+		let transform = c.transform.trans(x*data.zoom,y*data.zoom).rot_rad(dir);
 		
-		let rect = rectangle::centered([0.0,0.0,self.width/2.0,self.height/2.0]);
+		let rect = rectangle::centered([0.0,0.0,(self.width/2.0)*data.zoom,(self.height/2.0)*data.zoom]);
 		
-        
-
 		//TODO: create the shape once, and draw multiple times
 		match self.shape_type {
 			ShapeTypes::Rectangle => { 
@@ -70,7 +70,7 @@ impl Shape {
 			},
 			ShapeTypes::Ellipse => { 
 			
-                let resolution = 2.0*self.width.max(self.height).sqrt();
+                let resolution = data.zoom*2.0*self.width.max(self.height).sqrt();
 
 				Ellipse::new(self.color)
 					.resolution(resolution as u32)
