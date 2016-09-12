@@ -173,9 +173,9 @@ impl Player {
 			
 		
 		//floor
-		if self.y+self.health/2.0 > (data.height as f64) {
+		if self.y+self.health/2.0 > (data.map_size[1] as f64) {
 			self.speed_y = 0.0;
-			self.y = (data.height as f64) - self.health/2.0;
+			self.y = (data.map_size[1] as f64) - self.health/2.0;
 		}
 
 		//ceiling
@@ -184,11 +184,13 @@ impl Player {
 			self.y = self.health/2.0;
 		}
 		
-		if self.x+self.health/2.0 > (data.width as f64) {
+        //right wall
+		if self.x+self.health/2.0 > (data.map_size[0] as f64) {
 			self.speed_x = 0.0;
-			self.x = (data.width as f64) - self.health/2.0;
+			self.x = (data.map_size[0] as f64) - self.health/2.0;
 		}
 		
+        //left wall
 		if self.x-self.health/2.0 < 0.0 {
 			self.speed_x = 0.0;
 			self.x = self.health/2.0;

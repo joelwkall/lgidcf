@@ -57,7 +57,10 @@ impl Shape {
 
     pub fn render(&self, c:&Context, g: &mut G2d, x: f64, y: f64, dir: f64, data:&AppData) {
 	
-		let transform = c.transform.trans(x*data.zoom,y*data.zoom).rot_rad(dir);
+        let x = (x-data.camera_pos[0])*data.zoom;
+        let y = (y-data.camera_pos[1])*data.zoom;
+
+		let transform = c.transform.trans(x,y).rot_rad(dir);
 		
 		let rect = rectangle::centered([0.0,0.0,(self.width/2.0)*data.zoom,(self.height/2.0)*data.zoom]);
 		
@@ -70,7 +73,7 @@ impl Shape {
 			},
 			ShapeTypes::Ellipse => { 
 			
-                let resolution = data.zoom*2.0*self.width.max(self.height).sqrt();
+                let resolution = data.zoom*4.0*self.width.max(self.height).sqrt();
 
 				Ellipse::new(self.color)
 					.resolution(resolution as u32)

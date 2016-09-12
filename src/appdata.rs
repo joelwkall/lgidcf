@@ -8,12 +8,13 @@ use device::*;
 pub struct AppData {
 	pub projectiles: Vec<Projectile>,
 	pub devices: Vec<Device>,
-	pub width: u32,
-	pub height: u32,
 	
 	pub mouse_x:u32,
 	pub mouse_y:u32,
 	pub mouse_pressed: bool,
+
+    pub map_size: [f64;2],
+    pub window_size: [f64;2],
 
     pub camera_pos: [f64;2],
     pub zoom: f64,
@@ -24,12 +25,12 @@ pub struct AppData {
 
 impl AppData {
 
-	pub fn new(width:u32,height:u32,devices:Vec<Device>) -> AppData { 
+	pub fn new(map_size: [f64;2], window_size: [f64;2], devices:Vec<Device>) -> AppData { 
 		AppData{
 			projectiles:Vec::new(),
 			devices:devices,
-			width:width,
-			height:height,
+			map_size:map_size,
+			window_size:window_size,
 			mouse_x:0,
 			mouse_y:0,
 			mouse_pressed:false,

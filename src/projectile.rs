@@ -83,11 +83,11 @@ impl Projectile {
 			trigger_border_collision=true;
 		}
 		
-		if self.x >= (data.width as f64)
+		if self.x >= (data.map_size[0] as f64)
 		{
 			ret.direction = HALFTURN - ret.direction; //mirror angle along y axis
 			ret.speed = ret.speed*reduction;
-			ret.x = (data.width as f64)-1.0;
+			ret.x = (data.map_size[0] as f64)-1.0;
 			
 			trigger_border_collision=true;
 		}
@@ -101,11 +101,11 @@ impl Projectile {
 			trigger_border_collision=true;
 		}
 		
-		if self.y >= (data.height as f64)
+		if self.y >= (data.map_size[1] as f64)
 		{
 			ret.direction = -ret.direction; //mirror angle along x axis
 			ret.speed = ret.speed*reduction;
-			ret.y = (data.height as f64)-1.0;
+			ret.y = (data.map_size[1] as f64)-1.0;
 			
 			trigger_border_collision=true;
 		}

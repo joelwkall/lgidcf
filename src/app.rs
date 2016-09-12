@@ -30,7 +30,7 @@ pub struct App {
 
 impl App {
 
-	pub fn new(width:u32,height:u32) -> App {
+	pub fn new(map_size: [f64;2], window_size: [f64;2]) -> App {
 	
 		
 	
@@ -46,7 +46,7 @@ impl App {
 		}
 		
 		
-		let app_data = AppData::new(width,height,devices);
+		let app_data = AppData::new(map_size, window_size,devices);
 		
 		//jetpack
 		let mut data = String::new();
@@ -62,13 +62,13 @@ impl App {
 		
 		let mut players = Vec::new();
 		
-		let space = (width as f64) / (s.players.len() as f64+1.0);
+		let space = map_size[0] / (s.players.len() as f64+1.0);
 		
 		for (i,p) in s.players.iter().enumerate() {
 		
 			let player = Player {
 				x:space*(i as f64 + 1.0),
-				y:(height as f64)/2.0,
+				y:map_size[1]/2.0,
 				speed_x:0.0,
 				speed_y:0.0,
 				time_since_shot:0.0,
@@ -112,12 +112,12 @@ impl App {
 		//clear the screen.
 		clear(GREEN, g);
 		
+        //render projectiles
 		for d in &self.data.projectiles {
 			d.render(&c,g,&self.data);
 		}
 		
-		
-		
+		//render players
 		for p in &self.players {
 			p.render(&c,g,&self.data,font);
 		
@@ -126,13 +126,22 @@ impl App {
 		//ground
         let ground = Shape {
             color:[0.0,0.0,0.0,1.0],
-            width:800.0,
+            width:self.data.map_size[0],
             height:10.0,
             shape_type:ShapeTypes::Rectangle
         };
 
-        ground.render(&c,g,400.0,595.0,0.0,&self.data);
+        ground.render(&c,g,self.data.map_size[0]/2.0,self.data.map_size[1]-5.0,0.0,&self.data);
 		
+
+        //debug info
+        let mut text = Text::new(10);
+		text.color = [0.0, 0.0, 1.0, 1.0];
+		text.draw(&format!("Cam pos: {}:{}, Zoom: {}", self.data.camera_pos[0] as i32,self.data.camera_pos[1] as i32,self.data.zoom),
+			font,
+			&c.draw_state,
+			c.trans(self.data.window_size[0]-250.0, 40.0).transform,
+			g); 
 	
 	}
 
@@ -141,9 +150,9 @@ impl App {
 	
 		let mut new_projectiles:Vec<Projectile> = Vec::new();
 		
-        let mut leftmost_player_x = 800.0;
+        let mut leftmost_player_x = self.data.map_size[0];
         let mut rightmost_player_x = 0.0;
-        let mut top_player_y = 600.0;
+        let mut top_player_y = self.data.map_size[1];
         let mut bottom_player_y = 0.0;
 
 		for p in &mut self.players {
@@ -184,8 +193,32 @@ impl App {
         //pythagorean distance
         let max_distance = ((rightmost_player_x - leftmost_player_x).powi(2)+(bottom_player_y - top_player_y).powi(2)).sqrt();
 
-        self.data.zoom = (max_distance-400.0).abs()/400.0;
 
+        
+
+        //find middle point
+        let x = (rightmost_player_x + leftmost_player_x)/2.0;
+        let y = (bottom_player_y + top_player_y)/2.0;
+
+        self.data.camera_pos = [x-self.data.window_size[0]/2.0,y-self.data.window_size[1]/2.0];
+
+        if self.data.camera_pos[0]<0.0 {
+            self.data.camera_pos[0] = 0.0;
+        }
+
+        if self.data.camera_pos[0]>self.data.map_size[0]-self.data.window_size[0] {
+            self.data.camera_pos[0] = self.data.map_size[0]-self.data.window_size[0];
+        }
+
+        if self.data.camera_pos[1]<0.0 {
+            self.data.camera_pos[1] = 0.0;
+        }
+
+        if self.data.camera_pos[1]>self.data.map_size[1]-self.data.window_size[1] {
+            self.data.camera_pos[1] = self.data.map_size[1]-self.data.window_size[1];
+        }
+
+        self.data.zoom = 0.5;
 
 	}
 	

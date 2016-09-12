@@ -25,12 +25,14 @@ use app::*;
 
 fn main() {
 
-	const SIZE: [u32; 2] = [800,600];
+
+    const MAP_SIZE: [f64; 2] = [1600.0,800.0];
+	const WINDOW_SIZE: [f64; 2] = [800.0,600.0];
 
 	// Create an Glutin window.
 	let mut window: PistonWindow = WindowSettings::new(
 			"lgidcf",
-			SIZE
+			[WINDOW_SIZE[0] as u32,WINDOW_SIZE[1] as u32]
 		)
 		.opengl(OpenGL::V3_3)
 		.vsync(true)
@@ -54,7 +56,7 @@ fn main() {
     }
 	
 	// Create a new game and run it.
-	let mut app = App::new(SIZE[0],SIZE[1]);
+	let mut app = App::new(MAP_SIZE,WINDOW_SIZE);
 	
 	let mut frames = 0;
 	let mut passed = 0.0;
@@ -100,7 +102,7 @@ fn main() {
 				text.draw(&format!("FPS: {}, Objects: {}", fps.round() as i32,num_objs),
 				  &mut font,
 				  &c.draw_state,
-				  c.trans((SIZE[0] as f64)-250.0, 20.0).transform,
+				  c.trans(WINDOW_SIZE[0]-250.0, 20.0).transform,
 				  g); 
 
 				if cfg!(debug_assertions) {
