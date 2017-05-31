@@ -1,12 +1,15 @@
+extern crate rand;
+
 use std::collections::HashMap;
-
 use piston_window::*;
-
+use rand::Rng;
+use obstacle::*;
 use projectile::*;
 use device::*;
 
 pub struct AppData {
 	pub projectiles: Vec<Projectile>,
+    pub obstacles: Vec<Obstacle>,
 	pub devices: Vec<Device>,
 	
 	pub mouse_x:u32,
@@ -26,8 +29,27 @@ pub struct AppData {
 impl AppData {
 
 	pub fn new(map_size: [f64;2], window_size: [f64;2], devices:Vec<Device>) -> AppData { 
+
+        let mut obstacles = Vec::new();
+
+        let mut rng = rand::thread_rng();
+		
+        for _ in 0..30 {
+
+            let width = rng.gen_range::<f64>(100.0,300.0);
+            let height = rng.gen_range::<f64>(20.0,40.0);
+
+            let x = rng.gen_range::<f64>(0.0,map_size[0] as f64);
+            let y = rng.gen_range::<f64>(0.0,map_size[1] as f64);
+
+            let o = Obstacle::new([x,y],[width,height]);
+
+            obstacles.push(o);
+        }
+           
 		AppData{
 			projectiles:Vec::new(),
+            obstacles:obstacles,
 			devices:devices,
 			map_size:map_size,
 			window_size:window_size,

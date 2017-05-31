@@ -32,7 +32,6 @@ impl App {
 
 	pub fn new(map_size: [f64;2], window_size: [f64;2]) -> App {
 	
-		
 	
 		//devices
 		let paths = fs::read_dir("devices").unwrap();
@@ -107,11 +106,16 @@ impl App {
 
 	pub fn render(&self, c:&Context, g: &mut G2d,font: &mut GlyphCache<Resources,Factory>) {
 
-		const GREEN: [f32; 4] = [0.0, 1.0, 0.0, 1.0];
+		const BG: [f32; 4] = [0.1, 0.1, 0.1, 1.0];
 		
 		//clear the screen.
-		clear(GREEN, g);
+		clear(BG, g);
 		
+        //render obstacles
+        for o in &self.data.obstacles {
+			o.render(&c,g,&self.data);
+		}
+
         //render projectiles
 		for d in &self.data.projectiles {
 			d.render(&c,g,&self.data);
@@ -121,6 +125,8 @@ impl App {
 		for p in &self.players {
 			p.render(&c,g,&self.data,font);
 		}
+
+        
 		
 		//ground
         let ground = Shape {
@@ -129,8 +135,16 @@ impl App {
             height:10.0,
             shape_type:ShapeTypes::Rectangle
         };
-
         ground.render(&c,g,self.data.map_size[0]/2.0,self.data.map_size[1]-5.0,0.0,&self.data);
+
+        //ceiling
+        let ceiling = Shape {
+            color:[0.0,0.0,0.0,1.0],
+            width:self.data.map_size[0],
+            height:10.0,
+            shape_type:ShapeTypes::Rectangle
+        };
+        ceiling.render(&c,g,self.data.map_size[0]/2.0,5.0,0.0,&self.data);
 		
         //debug info
         let mut text = Text::new(10);
@@ -189,7 +203,6 @@ impl App {
 		//self.data.objects = newObjects;
 		self.data.projectiles = new_projectiles;
 
-
         //find middle point
         let x = (rightmost_player_x + leftmost_player_x)/2.0;
         let y = (bottom_player_y + top_player_y)/2.0;
@@ -198,8 +211,20 @@ impl App {
         let max_distance = ((rightmost_player_x - leftmost_player_x).powi(2)+(bottom_player_y - top_player_y).powi(2)).sqrt();
         self.data.zoom = 500.0/max_distance;
 
+        //max and min zoom
         if self.data.zoom > 5.0 {
             self.data.zoom = 5.0;
+        }
+
+        let min_zoom_x = self.data.window_size[0]/self.data.map_size[0];
+        let min_zoom_y = self.data.window_size[1]/self.data.map_size[1];
+
+        if self.data.zoom < min_zoom_x {
+            self.data.zoom = min_zoom_x;
+        }
+
+        if self.data.zoom < min_zoom_y {
+            self.data.zoom = min_zoom_y;
         }
 
         //set camera position with its middle point on the middle point
