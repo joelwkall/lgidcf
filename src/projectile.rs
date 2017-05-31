@@ -5,6 +5,7 @@ use rand::Rng;
 
 use piston_window::*;
 
+use obstacle::Obstacle;
 use player::Player;
 use appdata::*;
 use device::*;
@@ -163,6 +164,42 @@ impl Projectile {
 		
 		vec
 	}
+
+    fn check_obstacle_collision(&self, obstacles: &Vec<Obstacle>) -> Vec<&ProjectileEvent>
+	{
+		let mut vec = Vec::new();
+	
+		let mut trigger_collision = false;
+		
+		for o in obstacles {
+		
+			if 
+				self.x - self.template.shape.width/2.0 < o.x+o.width/2.0 && 
+				self.x + self.template.shape.width/2.0 > o.x-o.width/2.0 &&
+				self.y - self.template.shape.height/2.0 < o.y+o.height/2.0 &&
+				self.y + self.template.shape.height/2.0 > o.y-o.height/2.0
+
+			{
+				trigger_collision=true;
+			}
+
+		}
+		
+		if trigger_collision {
+		
+			for e in &self.template.events {
+				
+				match e.event_type {
+					ProjectileEventTypes::BorderCollision => vec.push(e),
+					_ => {}
+				}
+			
+			}
+		
+		}
+		
+		vec
+	}
 	
 	fn check_stationary(&self) -> Vec<&ProjectileEvent>
 	{
@@ -247,6 +284,10 @@ impl Projectile {
 		}
 		
 		for e in self.check_player_collision(players) {
+			triggered_events.push(e);
+		}
+
+        for e in self.check_obstacle_collision(&data.obstacles) {
 			triggered_events.push(e);
 		}
 		

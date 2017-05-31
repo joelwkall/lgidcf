@@ -30,11 +30,11 @@ impl AppData {
 
 	pub fn new(map_size: [f64;2], window_size: [f64;2], devices:Vec<Device>) -> AppData { 
 
-        let mut obstacles = Vec::new();
-
         let mut rng = rand::thread_rng();
-		
-        for _ in 0..30 {
+
+        let mut obstacles = Vec::new();
+        let num = rng.gen_range::<i32>(5,20);
+        for _ in 0..num {
 
             let width = rng.gen_range::<f64>(100.0,300.0);
             let height = rng.gen_range::<f64>(20.0,40.0);
