@@ -126,20 +126,18 @@ impl App {
 			p.render(&c,g,&self.data,font);
 		}
 
-        
-		
-		//ground
+		//render ground
         let ground = Shape {
-            color:[0.0,0.0,0.0,1.0],
+            color:[0.0,0.5,0.0,1.0],
             width:self.data.map_size[0],
             height:10.0,
             shape_type:ShapeTypes::Rectangle
         };
         ground.render(&c,g,self.data.map_size[0]/2.0,self.data.map_size[1]-5.0,0.0,&self.data);
 
-        //ceiling
+        //render ceiling
         let ceiling = Shape {
-            color:[0.0,0.0,0.0,1.0],
+            color:[0.9,0.9,0.9,1.0],
             width:self.data.map_size[0],
             height:10.0,
             shape_type:ShapeTypes::Rectangle

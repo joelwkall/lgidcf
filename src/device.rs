@@ -79,7 +79,7 @@ impl Shape {
 			},
 			ShapeTypes::Ellipse => { 
 			
-                let resolution = data.zoom*2.0*self.width.max(self.height).sqrt();
+                let resolution = data.zoom*2.0*self.width.max(self.height).sqrt().max(3.0);
 
 				Ellipse::new(self.color)
 					.resolution(resolution as u32)
