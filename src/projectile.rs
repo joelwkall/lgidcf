@@ -56,9 +56,9 @@ impl Projectile {
 	
 	}
 	
+    //TODO: could be implemented as 4 virtual obstacles around the map to avoid code duplication
 	fn check_border_collision(&self, ret: &mut Projectile, data: &AppData) -> Vec<&ProjectileEvent>
 	{
-	
 		const HALFTURN:f64 = 3.14159;
 		const WHOLETURN:f64 = HALFTURN*2.0;
 	
@@ -145,8 +145,6 @@ impl Projectile {
 			{
 				trigger_collision=true;
 			}
-
-		
 		}
 		
 		if trigger_collision {
@@ -165,24 +163,79 @@ impl Projectile {
 		vec
 	}
 
-    fn check_obstacle_collision(&self, obstacles: &Vec<Obstacle>) -> Vec<&ProjectileEvent>
+    fn check_obstacle_collision(&self, ret: &mut Projectile, obstacles: &Vec<Obstacle>) -> Vec<&ProjectileEvent>
 	{
+        const HALFTURN:f64 = 3.14159;
+		const WHOLETURN:f64 = HALFTURN*2.0;
+	
 		let mut vec = Vec::new();
 	
 		let mut trigger_collision = false;
 		
+        let reduction = 1.0-self.template.friction.unwrap_or(0.0);
+
 		for o in obstacles {
 		
-			if 
-				self.x - self.template.shape.width/2.0 < o.x+o.width/2.0 && 
-				self.x + self.template.shape.width/2.0 > o.x-o.width/2.0 &&
-				self.y - self.template.shape.height/2.0 < o.y+o.height/2.0 &&
-				self.y + self.template.shape.height/2.0 > o.y-o.height/2.0
+            //check if we hit (we are inside)
+            if 
+                self.x - self.template.shape.width/2.0 < o.x+o.width/2.0 &&
+                self.x + self.template.shape.width/2.0 > o.x-o.width/2.0 &&
+                self.y - self.template.shape.height/2.0 < o.y+o.height/2.0 &&
+                self.y + self.template.shape.height/2.0 > o.y-o.height/2.0 
+            {
+                trigger_collision=true;
 
-			{
-				trigger_collision=true;
-			}
+                //different bouncing depending on where we hit
+                //TODO: fix this weird algorithm so it doesnt need to move 1px
+                //TODO it doesnt work at all!
 
+                //right edge
+		        if 
+                    (self.x - self.template.shape.width/2.0 < o.x+o.width/2.0) &&
+                    (self.y - self.template.shape.height/2.0 < o.y+o.height/2.0) &&
+                    (self.y + self.template.shape.height/2.0 > o.y-o.height/2.0) 
+		        {
+			        ret.direction = HALFTURN - ret.direction; //mirror angle along y axis
+			        ret.speed = ret.speed*reduction;
+			        ret.x = ret.x+1.0;
+		        }
+                //left edge
+		        else if
+                    (self.x + self.template.shape.width/2.0 > o.x-o.width/2.0) &&
+                    !(self.y - self.template.shape.height/2.0 < o.y+o.height/2.0) &&
+                    !(self.y + self.template.shape.height/2.0 > o.y-o.height/2.0) 
+		        {
+			        ret.direction = HALFTURN - ret.direction; //mirror angle along y axis
+			        ret.speed = ret.speed*reduction;
+			        ret.x = ret.x-1.0;
+		        }
+	            //top edge
+		        else if
+                    !(self.x - self.template.shape.width/2.0 < o.x+o.width/2.0) &&
+                    !(self.x + self.template.shape.width/2.0 > o.x-o.width/2.0) &&
+                    (self.y - self.template.shape.height/2.0 < o.y+o.height/2.0)
+		        {
+			        ret.direction = -ret.direction; //mirror angle along x axis
+			        ret.speed = ret.speed*reduction;
+			        ret.y = ret.y-1.0;
+		        }
+		        //bottom edge
+		        else if
+                    !(self.x - self.template.shape.width/2.0 < o.x+o.width/2.0) &&
+                    !(self.x + self.template.shape.width/2.0 > o.x-o.width/2.0) &&
+                    (self.y + self.template.shape.height/2.0 > o.y-o.height/2.0) 
+		        {
+			        ret.direction = -ret.direction; //mirror angle along x axis
+			        ret.speed = ret.speed*reduction;
+			        ret.y = ret.y+1.0;
+		        }
+            }
+
+		}
+
+        //normalize angle
+		while ret.direction < 0.0 {
+			ret.direction += WHOLETURN;
 		}
 		
 		if trigger_collision {
@@ -287,7 +340,7 @@ impl Projectile {
 			triggered_events.push(e);
 		}
 
-        for e in self.check_obstacle_collision(&data.obstacles) {
+        for e in self.check_obstacle_collision(&mut ret,&data.obstacles) {
 			triggered_events.push(e);
 		}
 		
