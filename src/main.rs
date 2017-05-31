@@ -4,6 +4,7 @@ mod projectile;
 mod player;
 mod device;
 mod settings;
+mod obstacle;
 
 extern crate piston_window;
 extern crate piston;
@@ -12,7 +13,8 @@ extern crate rustc_serialize;
 extern crate graphics;
 extern crate gfx_graphics;
 extern crate gfx_device_gl;
-
+extern crate chrono;
+extern crate time;
 
 use std::env::current_exe;
 use piston_window::*;
@@ -26,7 +28,7 @@ use app::*;
 fn main() {
 
 
-    const MAP_SIZE: [f64; 2] = [1600.0,800.0];
+    const MAP_SIZE: [f64; 2] = [1600.0,1200.0];
 	const WINDOW_SIZE: [f64; 2] = [800.0,600.0];
 
 	// Create an Glutin window.
@@ -59,7 +61,7 @@ fn main() {
 	let mut app = App::new(MAP_SIZE,WINDOW_SIZE);
 	
 	let mut frames = 0;
-	let mut passed = 0.0;
+	let mut prev_time = chrono::UTC::now();
 	
 	let mut fps:f64 = 0.0;
 
@@ -67,7 +69,6 @@ fn main() {
 		println!("Created app.");
     }
 
-	
 	while let Some(e) = window.next() {
 			
 		if cfg!(debug_assertions) {
@@ -128,15 +129,14 @@ fn main() {
 				//println!("Finished app update event handling.");
 			}
 			
-			passed += u.dt;
+            //FPS calc
+            let seconds = (chrono::UTC::now().signed_duration_since(prev_time).num_milliseconds() as f64)/1000.0;
 			
-			if passed > 1.0 {
-		
-				fps = (frames as f64) / passed;
+			if seconds > 2.0 {
+				fps = (frames as f64) / seconds;
 				
 				frames = 0;
-				passed = 0.0;
-			
+			    prev_time = chrono::UTC::now();
 			}
 
 			if cfg!(debug_assertions) {
