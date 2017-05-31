@@ -102,7 +102,7 @@ impl Player {
 			return None
 		}
 		
-		const SPEED:f64= 100.0;
+		const SPEED:f64= 200.0;
 		
 		//go left and right
 		if data.key_is_pressed(self.settings.key_left) {

@@ -36,7 +36,6 @@ pub struct ProjectileEvent {
 	pub die:Option<bool>
 }
 
-
 #[derive(RustcDecodable)]
 pub enum ProjectileEventTypes {
 	BorderCollision,
@@ -45,6 +44,7 @@ pub enum ProjectileEventTypes {
 	Timer
 }
 
+//TODO:move to own file
 #[derive(RustcDecodable)]
 pub struct Shape {
 	pub width: f64,
@@ -63,8 +63,11 @@ impl Shape {
         let y = (y-data.camera_pos[1])*data.zoom;
 
 		let transform = c.transform.trans(x,y).rot_rad(dir);
+
+        let width = ((self.width/2.0)*data.zoom).max(1.0);
+        let height = ((self.height/2.0)*data.zoom).max(1.0);
 		
-		let rect = rectangle::centered([0.0,0.0,(self.width/2.0)*data.zoom,(self.height/2.0)*data.zoom]);
+		let rect = rectangle::centered([0.0,0.0,width,height]);
 		
 		//TODO: create the shape once, and draw multiple times
         //might be hard with differing resolution
@@ -87,8 +90,6 @@ impl Shape {
 
     //TODO: move collision detection here
 }
-
-
 
 #[derive(RustcDecodable)]
 pub enum ShapeTypes {

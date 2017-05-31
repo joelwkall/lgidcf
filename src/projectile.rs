@@ -9,13 +9,10 @@ use player::Player;
 use appdata::*;
 use device::*;
 
-
-
 pub struct Projectile {
 
 	pub x: f64,
 	pub y: f64,
-	
 	
 	pub speed: f64,
 	pub direction: f64,
@@ -25,12 +22,9 @@ pub struct Projectile {
 	pub template: Rc<ProjectileTemplate>,
 	
 	age:f64
-
 }
 
-
 impl Projectile {
-	
 
     //TODO: make it work with speedX, speedY again, much easier
 	pub fn new(pos:[f64;2],angle:f64,speed:f64,template:Rc<ProjectileTemplate>,owner:i32) -> Projectile {
@@ -41,7 +35,6 @@ impl Projectile {
 			let mut rng = rand::thread_rng();
 			new_angle += rng.gen_range::<f64>(-template.spread.unwrap_or(0.0),template.spread.unwrap_or(0.0));
 		}
-	
 	
 		let ret = Projectile {
 			x:pos[0],
@@ -197,7 +190,6 @@ impl Projectile {
 		//TODO: add support for multiple triggers for the same action
 		for e in &self.template.events {
 			
-
 			match e.event_type {
 				ProjectileEventTypes::Timer =>{
 				
@@ -236,8 +228,7 @@ impl Projectile {
 				_ => {}
 			}
 		}
-		
-		
+
 		vec
 	
 	}
@@ -250,9 +241,6 @@ impl Projectile {
 			..*self};
 			
 		let mut triggered_events = Vec::new();
-		
-		
-	
 		
 		for e in self.check_border_collision(&mut ret,data) {
 			triggered_events.push(e);
