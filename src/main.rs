@@ -71,25 +71,25 @@ fn main() {
 	while let Some(e) = window.next() {
 			
 		if cfg!(debug_assertions) {
-			println!("Aquired window event.");
+			//println!("Aquired window event.");
 		}
 
 		if let Some(_) = e.render_args() {
 
 			if cfg!(debug_assertions) {
-				println!("Beginning render event handling.");
+				//println!("Beginning render event handling.");
 			}
 
 			window.draw_2d(&e,|c, g| {
 
 				if cfg!(debug_assertions) {
-					println!("Beginning draw closure.");
+					//println!("Beginning draw closure.");
 				}
 
 				app.render(&c,g,&mut font);
 
 				if cfg!(debug_assertions) {
-					println!("Finished app drawing.");
+					//println!("Finished app drawing.");
 				}
 
 				frames+=1;
@@ -106,12 +106,12 @@ fn main() {
 				  g); 
 
 				if cfg!(debug_assertions) {
-					println!("Finished draw closure.");
+					//println!("Finished draw closure.");
 				}
 			});
 
 			if cfg!(debug_assertions) {
-				println!("Finished render event handling.");
+				//println!("Finished render event handling.");
 			}
 
 		}
@@ -119,13 +119,13 @@ fn main() {
 		if let Some(u) = e.update_args() {
 		
 			if cfg!(debug_assertions) {
-				println!("Beginning update event handling.");
+				//println!("Beginning update event handling.");
 			}
 		
 			app.update(&u);
 
 			if cfg!(debug_assertions) {
-				println!("Finished app update event handling.");
+				//println!("Finished app update event handling.");
 			}
 			
 			passed += u.dt;
@@ -140,14 +140,14 @@ fn main() {
 			}
 
 			if cfg!(debug_assertions) {
-				println!("Finished update event handling.");
+				//println!("Finished update event handling.");
 			}
 		}
 		
 		if let Some(b) = e.press_args() {
 
 			if cfg!(debug_assertions) {
-				println!("Button pressed.");
+				//println!("Button pressed.");
 			}
 
 			app.handle_button_pressed(b);
@@ -156,7 +156,7 @@ fn main() {
 		if let Some(b) = e.release_args() {
 
 			if cfg!(debug_assertions) {
-				println!("Button released.");
+				//println!("Button released.");
 			}
 
 			app.handle_button_released(b);
@@ -165,7 +165,7 @@ fn main() {
 		if let Some(m) = e.mouse_cursor_args() {
 
 			if cfg!(debug_assertions) {
-				println!("Mouse moved.");
+				//println!("Mouse moved.");
 			}
 
 			app.handle_mouse_move(m);
@@ -173,7 +173,7 @@ fn main() {
 		
 		
 		if cfg!(debug_assertions) {
-			println!("Finished window event. Frames={}",frames);
+			//println!("Finished window event. Frames={}",frames);
 		}
 		
 		

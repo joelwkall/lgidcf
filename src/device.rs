@@ -57,6 +57,8 @@ impl Shape {
 
     pub fn render(&self, c:&Context, g: &mut G2d, x: f64, y: f64, dir: f64, data:&AppData) {
 	
+        //TODO dont draw if outside screen
+
         let x = (x-data.camera_pos[0])*data.zoom;
         let y = (y-data.camera_pos[1])*data.zoom;
 
@@ -65,6 +67,7 @@ impl Shape {
 		let rect = rectangle::centered([0.0,0.0,(self.width/2.0)*data.zoom,(self.height/2.0)*data.zoom]);
 		
 		//TODO: create the shape once, and draw multiple times
+        //might be hard with differing resolution
 		match self.shape_type {
 			ShapeTypes::Rectangle => { 
 			
@@ -73,18 +76,16 @@ impl Shape {
 			},
 			ShapeTypes::Ellipse => { 
 			
-                let resolution = data.zoom*4.0*self.width.max(self.height).sqrt();
+                let resolution = data.zoom*2.0*self.width.max(self.height).sqrt();
 
 				Ellipse::new(self.color)
 					.resolution(resolution as u32)
 					.draw(rect, &Default::default(), transform, g);
 			}
 		}
-	
 	}
 
     //TODO: move collision detection here
-
 }
 
 

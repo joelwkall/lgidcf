@@ -120,7 +120,6 @@ impl App {
 		//render players
 		for p in &self.players {
 			p.render(&c,g,&self.data,font);
-		
 		}
 		
 		//ground
@@ -133,7 +132,6 @@ impl App {
 
         ground.render(&c,g,self.data.map_size[0]/2.0,self.data.map_size[1]-5.0,0.0,&self.data);
 		
-
         //debug info
         let mut text = Text::new(10);
 		text.color = [0.0, 0.0, 1.0, 1.0];
@@ -155,6 +153,7 @@ impl App {
         let mut top_player_y = self.data.map_size[1];
         let mut bottom_player_y = 0.0;
 
+        //find the player max min pos
 		for p in &mut self.players {
 			match p.update(&args,&mut self.data) {
 				Some(v) => {
@@ -190,36 +189,37 @@ impl App {
 		//self.data.objects = newObjects;
 		self.data.projectiles = new_projectiles;
 
-        //pythagorean distance
-        let max_distance = ((rightmost_player_x - leftmost_player_x).powi(2)+(bottom_player_y - top_player_y).powi(2)).sqrt();
-
-
-        
 
         //find middle point
         let x = (rightmost_player_x + leftmost_player_x)/2.0;
         let y = (bottom_player_y + top_player_y)/2.0;
 
-        self.data.camera_pos = [x-self.data.window_size[0]/2.0,y-self.data.window_size[1]/2.0];
+        //pythagorean distance
+        let max_distance = ((rightmost_player_x - leftmost_player_x).powi(2)+(bottom_player_y - top_player_y).powi(2)).sqrt();
+        self.data.zoom = 500.0/max_distance;
 
+        if(self.data.zoom > 5.0)
+            self.data.zoom = 5.0;
+
+        //set camera position with its middle point on the middle point
+        self.data.camera_pos = [(x-(self.data.window_size[0]/self.data.zoom)/2.0),y-(self.data.window_size[1]/self.data.zoom)/2.0];
+
+        //fix boundary issues
         if self.data.camera_pos[0]<0.0 {
             self.data.camera_pos[0] = 0.0;
         }
 
-        if self.data.camera_pos[0]>self.data.map_size[0]-self.data.window_size[0] {
-            self.data.camera_pos[0] = self.data.map_size[0]-self.data.window_size[0];
+        if self.data.camera_pos[0]+(self.data.window_size[0]/self.data.zoom)>self.data.map_size[0] {
+            self.data.camera_pos[0] = self.data.map_size[0]-(self.data.window_size[0]/self.data.zoom);
         }
 
         if self.data.camera_pos[1]<0.0 {
             self.data.camera_pos[1] = 0.0;
         }
 
-        if self.data.camera_pos[1]>self.data.map_size[1]-self.data.window_size[1] {
-            self.data.camera_pos[1] = self.data.map_size[1]-self.data.window_size[1];
+        if self.data.camera_pos[1]+(self.data.window_size[1]/self.data.zoom)>self.data.map_size[1] {
+            self.data.camera_pos[1] = self.data.map_size[1]-(self.data.window_size[1]/self.data.zoom);
         }
-
-        self.data.zoom = 0.5;
-
 	}
 	
 	pub fn handle_button_pressed(&mut self, button: Button) {

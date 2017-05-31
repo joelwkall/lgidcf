@@ -39,8 +39,6 @@ impl Player {
 
 	fn throw_projectiles(&self,data: &AppData) -> Vec<Projectile> {
 	
-		
-		
 		let mut ret = Vec::new();
 		
 		let angle = (self.dir[1]).atan2(self.dir[0]);
@@ -53,11 +51,9 @@ impl Player {
 		}
 		
 		ret
-
 	}
 
 	pub fn render(&self, c:&Context, g: &mut G2d,data: &AppData, font: &mut GlyphCache<Resources,Factory>) {
-
 
         //dont draw dead players
 		if self.health <= 0.0 {
@@ -91,9 +87,6 @@ impl Player {
 			&c.draw_state,
 			c.trans(20.0, (self.index as f64 + 1.0)*20.0-1.0).transform,
 			g); 
-		  
-	
-		
 	}
 	
 	fn get_current_device<'a>(&'a self, data: &'a AppData) -> &Device {
@@ -101,12 +94,9 @@ impl Player {
 		let ref ret = data.devices[self.current_device as usize];
 		
 		ret
-	
 	}
 
 	pub fn update(&mut self, args: &UpdateArgs, data: &AppData) -> Option<Vec<Projectile>> {
-		
-		
 		
 		if self.health <= 0.0 {
 			return None
@@ -210,7 +200,6 @@ impl Player {
 			ret.extend(projectiles);
 		}
 		
-		
 		//get hit
 		for p in &data.projectiles {
 		
@@ -225,11 +214,16 @@ impl Player {
 
 					{
 						self.health -= d;
-                        self.shape = Shape {
-                            width:self.health,
-                            height:self.health,
-                            color:self.shape.color.clone(),
-                            shape_type:ShapeTypes::Ellipse
+
+                        //decrease size of shape with health
+                        if self.health>10.0
+                        {
+                            self.shape = Shape {
+                                width:self.health,
+                                height:self.health,
+                                color:self.shape.color.clone(),
+                                shape_type:ShapeTypes::Ellipse
+                            }
                         }
 					}
 				},
@@ -239,10 +233,5 @@ impl Player {
 		}
 		
 		Some(ret)
-		
-		
-		
 	}
-	
-	
 }
