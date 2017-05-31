@@ -198,8 +198,9 @@ impl App {
         let max_distance = ((rightmost_player_x - leftmost_player_x).powi(2)+(bottom_player_y - top_player_y).powi(2)).sqrt();
         self.data.zoom = 500.0/max_distance;
 
-        if(self.data.zoom > 5.0)
+        if self.data.zoom > 5.0 {
             self.data.zoom = 5.0;
+        }
 
         //set camera position with its middle point on the middle point
         self.data.camera_pos = [(x-(self.data.window_size[0]/self.data.zoom)/2.0),y-(self.data.window_size[1]/self.data.zoom)/2.0];

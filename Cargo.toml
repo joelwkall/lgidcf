@@ -13,7 +13,6 @@ piston2d-graphics = "*"
 piston2d-opengl_graphics = "*"
 piston_window = "*"
 rand = "*"
-
 piston2d-gfx_graphics = "*"
 gfx_device_gl = "*"
 rustc-serialize = "0.3.19"
