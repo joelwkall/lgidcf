@@ -163,7 +163,7 @@ impl Projectile {
 		vec
 	}
 
-    fn check_obstacle_collision(&self, ret: &mut Projectile, obstacles: &Vec<Obstacle>) -> Vec<&ProjectileEvent>
+    fn check_obstacle_collision(&self, args: &UpdateArgs, ret: &mut Projectile, obstacles: &Vec<Obstacle>) -> Vec<&ProjectileEvent>
 	{
         const HALFTURN:f64 = 3.14159;
 		const WHOLETURN:f64 = HALFTURN*2.0;
@@ -173,6 +173,9 @@ impl Projectile {
 		let mut trigger_collision = false;
 		
         let reduction = 1.0-self.template.friction.unwrap_or(0.0);
+
+        let prev_x = self.x - self.speed*self.direction.cos()*args.dt;
+		let prev_y = self.y - self.speed*self.direction.sin()*args.dt;
 
 		for o in obstacles {
 		
@@ -184,51 +187,46 @@ impl Projectile {
                 self.y + self.template.shape.height/2.0 > o.y-o.height/2.0 
             {
                 trigger_collision=true;
+                ret.speed = ret.speed*reduction;
 
                 //different bouncing depending on where we hit
                 //TODO: fix this weird algorithm so it doesnt need to move 1px
-                //TODO it doesnt work at all!
 
+                /*try to find from which section it came:
+                
+                \   3  /
+                 \____/
+               2 |    |   1
+                 |____|
+                 /    \
+                /   4  \
+
+
+                */
                 //right edge
-		        if 
-                    (self.x - self.template.shape.width/2.0 < o.x+o.width/2.0) &&
-                    (self.y - self.template.shape.height/2.0 < o.y+o.height/2.0) &&
-                    (self.y + self.template.shape.height/2.0 > o.y-o.height/2.0) 
-		        {
-			        ret.direction = HALFTURN - ret.direction; //mirror angle along y axis
-			        ret.speed = ret.speed*reduction;
-			        ret.x = ret.x+1.0;
-		        }
-                //left edge
-		        else if
-                    (self.x + self.template.shape.width/2.0 > o.x-o.width/2.0) &&
-                    !(self.y - self.template.shape.height/2.0 < o.y+o.height/2.0) &&
-                    !(self.y + self.template.shape.height/2.0 > o.y-o.height/2.0) 
-		        {
-			        ret.direction = HALFTURN - ret.direction; //mirror angle along y axis
-			        ret.speed = ret.speed*reduction;
-			        ret.x = ret.x-1.0;
-		        }
-	            //top edge
-		        else if
-                    !(self.x - self.template.shape.width/2.0 < o.x+o.width/2.0) &&
-                    !(self.x + self.template.shape.width/2.0 > o.x-o.width/2.0) &&
-                    (self.y - self.template.shape.height/2.0 < o.y+o.height/2.0)
-		        {
-			        ret.direction = -ret.direction; //mirror angle along x axis
-			        ret.speed = ret.speed*reduction;
-			        ret.y = ret.y-1.0;
-		        }
-		        //bottom edge
-		        else if
-                    !(self.x - self.template.shape.width/2.0 < o.x+o.width/2.0) &&
-                    !(self.x + self.template.shape.width/2.0 > o.x-o.width/2.0) &&
-                    (self.y + self.template.shape.height/2.0 > o.y-o.height/2.0) 
-		        {
-			        ret.direction = -ret.direction; //mirror angle along x axis
-			        ret.speed = ret.speed*reduction;
-			        ret.y = ret.y+1.0;
-		        }
+		        //if
+		        //{
+			       // ret.direction = HALFTURN - ret.direction; //mirror angle along y axis
+			       // ret.x = ret.x+1.0;
+		        //}
+          //      //left edge
+		        //else if
+		        //{
+			       // ret.direction = HALFTURN - ret.direction; //mirror angle along y axis
+			       // ret.x = ret.x-1.0;
+		        //}
+	         //   //top edge
+		        //else if
+		        //{
+			       // ret.direction = -ret.direction; //mirror angle along x axis
+			       // ret.y = ret.y-1.0;
+		        //}
+		        ////bottom edge
+		        //else if
+		        //{
+			       // ret.direction = -ret.direction; //mirror angle along x axis
+			       // ret.y = ret.y+1.0;
+		        //}
             }
 
 		}
@@ -332,7 +330,7 @@ impl Projectile {
 			
 		let mut triggered_events = Vec::new();
 		
-		for e in self.check_border_collision(&mut ret,data) {
+		for e in self.check_border_collision(args, &mut ret,data) {
 			triggered_events.push(e);
 		}
 		
@@ -391,8 +389,6 @@ impl Projectile {
 				_ => {}
 			}
 		
-			
-		
 			match e.die {
 				Some(true) => has_died = true,
 				_ => {}
@@ -403,7 +399,6 @@ impl Projectile {
 			return_vec.push(ret);
 		}
 	
-
 		return_vec
 	}
 }
