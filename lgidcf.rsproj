@@ -39,6 +39,7 @@
     <Content Include="settings\settings.json" />
   </ItemGroup>
   <ItemGroup>
+    <File Include="src\diagnostics.rs" />
     <File Include="src\obstacle.rs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\VisualRust\VisualRust.Rust.targets" />

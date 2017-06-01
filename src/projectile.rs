@@ -244,9 +244,7 @@ impl Projectile {
 					ProjectileEventTypes::BorderCollision => vec.push(e),
 					_ => {}
 				}
-			
 			}
-		
 		}
 		
 		vec
@@ -268,7 +266,6 @@ impl Projectile {
 		}
 		
 		vec
-	
 	}
 	
 	fn check_timers(&self, args: &UpdateArgs) -> Vec<&ProjectileEvent>
@@ -330,7 +327,7 @@ impl Projectile {
 			
 		let mut triggered_events = Vec::new();
 		
-		for e in self.check_border_collision(args, &mut ret,data) {
+		for e in self.check_border_collision(&mut ret,data) {
 			triggered_events.push(e);
 		}
 		
@@ -338,7 +335,7 @@ impl Projectile {
 			triggered_events.push(e);
 		}
 
-        for e in self.check_obstacle_collision(&mut ret,&data.obstacles) {
+        for e in self.check_obstacle_collision(args, &mut ret, &data.obstacles) {
 			triggered_events.push(e);
 		}
 		

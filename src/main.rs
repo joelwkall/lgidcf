@@ -5,6 +5,7 @@ mod player;
 mod device;
 mod settings;
 mod obstacle;
+mod diagnostics;
 
 extern crate piston_window;
 extern crate piston;
@@ -23,6 +24,7 @@ use gfx_device_gl::Factory;
 use gfx_device_gl::Resources;
 
 use app::*;
+use diagnostics::Diagnostics;
 
 
 fn main() {
@@ -68,6 +70,8 @@ fn main() {
 	if cfg!(debug_assertions) {
 		println!("Created app.");
     }
+
+    let diag = Diagnostics::new();
 
 	while let Some(e) = window.next() {
 			
